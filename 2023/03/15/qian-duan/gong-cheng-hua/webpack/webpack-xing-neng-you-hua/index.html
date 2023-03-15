@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    
+
+<script>!function(){var e=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,t=localStorage.getItem("use-color-scheme")||"auto";("dark"===t||e&&"light"!==t)&&document.documentElement.classList.toggle("dark",!0)}()</script>
+
+<meta charset="utf-8" >
+
+<title>webpack性能优化</title>
+<meta name="keywords" content="webpack性能优化, 郭海林的博客">
+<meta name="description" content="webpack性能优化目的主要是两个方面：
+
+提升开发效率
+编译后浏览器运行效率
+
+提升开发效率一、提⾼webpack的构建速度1. 开启多进程并行编译loader，利⽤缓存来使得 rebuild 更快
+happypack （作者已不在更新">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" href="/style/main.css">
+
+
+<link rel="stylesheet" href="/style/jquery.fancybox.min.css">
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+  <body>
+    <div id="app" class="main">
+
+<div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="http://www.guohailin.com">
+        <img class="avatar" src="/images/avatar.png" alt="logo" width="32px" height="32px">
+      </a>
+      <a href="http://www.guohailin.com">
+        <h1 class="site-title">郭海林的博客</h1>
+      </a>
+    </div>
+    <div class="right">
+        <i class="icon menu-switch icon-menu-outline" ></i>
+    </div>
+  </div>
+</div>
+
+<div class="menu-container" style="height: 0;opacity: 0;">
+<nav class="menu-list">
+  
+    
+      <a href="/" class="menu purple-link">
+        首页
+      </a>
+    
+  
+    
+      <a href="/tags" class="menu purple-link">
+        标签
+      </a>
+    
+  
+    
+      <a href="/archives" class="menu purple-link">
+        归档
+      </a>
+    
+  
+    
+      <a href="/about" class="menu purple-link">
+        关于
+      </a>
+    
+  
+</nav>
+</div>
+
+
+
+  <div class="content-container">
+    <div class="post-detail">
+      
+      <h2 class="post-title">webpack性能优化</h2>
+      <div class="post-info post-detail-info">
+        <span><i class="icon icon-calendar-outline"></i> 2023-03-15</span>
+        
+          <span>
+          <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="/tags/webpack/">
+              webpack
+                
+              </a>
+            
+          </span>
+        
+      </div>
+      <div class="post-content-wrapper">
+        <div class="post-content">
+          <p>webpack性能优化目的主要是两个方面：</p>
+<ul>
+<li>提升开发效率</li>
+<li>编译后浏览器运行效率</li>
+</ul>
+<h2 id="提升开发效率"><a href="#提升开发效率" class="headerlink" title="提升开发效率"></a>提升开发效率</h2><h3 id="一、提⾼webpack的构建速度"><a href="#一、提⾼webpack的构建速度" class="headerlink" title="一、提⾼webpack的构建速度"></a>一、提⾼webpack的构建速度</h3><h4 id="1-开启多进程并行编译loader，利⽤缓存来使得-rebuild-更快"><a href="#1-开启多进程并行编译loader，利⽤缓存来使得-rebuild-更快" class="headerlink" title="1. 开启多进程并行编译loader，利⽤缓存来使得 rebuild 更快"></a>1. 开启多进程并行编译loader，利⽤缓存来使得 rebuild 更快</h4><ol>
+<li>happypack （作者已不在更新）<br>Happypack 只是作用在 loader 上，使用多个进程同时对文件进行编译。</li>
+</ol>
+<ul>
+<li>安装<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install happypack --save-dev</span><br></pre></td></tr></table></figure></li>
+<li>使用<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">HappyPack</span> = <span class="built_in">require</span>(<span class="string">&#x27;happypack&#x27;</span>);</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="attr">module</span>: &#123;</span><br><span class="line">        <span class="attr">rules</span>: [</span><br><span class="line">            <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</span><br><span class="line">            <span class="comment">// use: [&#x27;babel-loader?cacheDirectory&#x27;] 之前是使用这种方式直接使用 loader</span></span><br><span class="line">            <span class="comment">// 现在用下面的方式替换成 happypack/loader，并使用 id 指定创建的 HappyPack 插件</span></span><br><span class="line">            <span class="attr">use</span>: [<span class="string">&#x27;happypack/loader?id=babel&#x27;</span>],</span><br><span class="line">            <span class="comment">// 排除 node_modules 目录下的文件</span></span><br><span class="line">            <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">plugins</span>: [</span><br><span class="line">        ...,</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">HappyPack</span>(&#123;</span><br><span class="line">            <span class="comment">// 必须配置</span></span><br><span class="line">            <span class="comment">// id 标识符，要和 rules 中指定的 id 对应起来</span></span><br><span class="line">            <span class="attr">id</span>: <span class="string">&#x27;babel&#x27;</span>,</span><br><span class="line">            <span class="comment">// 需要使用的 loader，用法和 rules 中 Loader 配置一样</span></span><br><span class="line">            <span class="comment">// 可以直接是字符串，也可以是对象形式</span></span><br><span class="line">            <span class="attr">loaders</span>: [<span class="string">&#x27;babel-loader?cacheDirectory&#x27;</span>]</span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol start="2">
+<li>thread-loader (wepack5 官方推荐)</li>
+</ol>
+<ul>
+<li>安装<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev thread-loader</span><br></pre></td></tr></table></figure></li>
+<li>使用,更多使用可参照 <a target="_blank" rel="noopener" href="https://www.webpackjs.com/loaders/thread-loader/">官网</a><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    ...,</span><br><span class="line">    <span class="attr">module</span>: &#123;</span><br><span class="line">      <span class="attr">rules</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</span><br><span class="line">          <span class="attr">include</span>: path.<span class="title function_">resolve</span>(<span class="string">&#x27;src&#x27;</span>),</span><br><span class="line">          <span class="attr">use</span>: [</span><br><span class="line">            <span class="string">&quot;thread-loader&quot;</span>,</span><br><span class="line">            <span class="comment">// 耗时的 loader （例如 babel-loader）</span></span><br><span class="line">          ],</span><br><span class="line">        &#125;,</span><br><span class="line">      ],</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="外部扩展-externals"><a href="#外部扩展-externals" class="headerlink" title="外部扩展(externals)"></a>外部扩展(externals)</h4><p>  通过将稳定的第三⽅库脱离webpack打包，不被打⼊bundle中，从⽽减少打包时间，然后通过script标签引入(cdn也是这种用法),如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">externals</span>: &#123;</span><br><span class="line">    <span class="attr">axios</span>: <span class="string">&quot;axios&quot;</span>,</span><br><span class="line">    <span class="attr">echarts</span>: <span class="string">&quot;echarts&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>如此 <code>axios</code> 与 <code>echarts</code> 剥离出了依赖模块，然后在html中通过<code>script</code>标签引入</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/axios/1.3.4/axios.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/echarts/5.4.1/echarts.common.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>以下代码认可继续使用，<code>axios</code> 与 <code>echarts</code> 的值将用检索全局变量来获取</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&quot;axios&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> echarts <span class="keyword">from</span> <span class="string">&quot;echarts&quot;</span>;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>dll<br>采⽤webpack的 DllPlugin 和 DllReferencePlugin 引⼊dll，让⼀些基本不会改动的代码先打包成静态资源，避免反复编译浪费时间</li>
+<li>利⽤缓存<br>webpack.cache 、babel-loader.cacheDirectory、 HappyPack.cache 都可以利⽤缓存提⾼rebuild效率缩⼩⽂件搜索范围: ⽐如babel-loader插件,如果你的⽂件仅存在于src中,那么可以 include: path.resolve(__dirname,’src’) ,当然绝⼤多数情况下这种操作的提升有限，除⾮不⼩⼼build了node_modules⽂件</li>
+</ol>
+
+        </div>
+        <div class="top-div">
+          <ol class="top-box"><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E6%8F%90%E5%8D%87%E5%BC%80%E5%8F%91%E6%95%88%E7%8E%87"><span class="top-box-text">提升开发效率</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E4%B8%80%E3%80%81%E6%8F%90%E2%BE%BCwebpack%E7%9A%84%E6%9E%84%E5%BB%BA%E9%80%9F%E5%BA%A6"><span class="top-box-text">一、提⾼webpack的构建速度</span></a></li></ol></li></ol>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+
+
+
+
+<footer>
+<div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/ghlyibu" target="_blank">
+          <i class="icon icon-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> <a href="https://github.com/f-dong/hexo-theme-minimalism" target="_blank">Theme</a>
+  
+  
+  
+    
+     |
+    
+      <a class="icp" href="/beian.miit.gov.cn" target="_blank">蜀ICP备2020031778号</a>
+  
+  
+</div>
+</footer>
+
+
+      </div>
+      
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.fancybox.min.js"></script>
+
+
+<script id="hexo-configurations">
+    window.theme_config = {"image":{"lazyload_enable":false}};
+    window.is_post = true;
+  </script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+    </div>
+  </body>
+</html>
+
