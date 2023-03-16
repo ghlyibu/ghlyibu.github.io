@@ -27,10 +27,10 @@ dark_theme:
 # 联系方式
 contact:
   github: "https://github.com/ghlyibu"
-  twitter:
-  weibo:
-  zhihu:
-  facebook:
+  # twitter:
+  # weibo:
+  # zhihu:
+  # facebook:
 
 # 是否显示封面图片
 showFeatureImage: true
