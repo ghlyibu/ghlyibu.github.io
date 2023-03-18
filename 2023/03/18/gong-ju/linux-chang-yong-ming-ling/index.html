@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    
+
+<script>!function(){var e=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,t=localStorage.getItem("use-color-scheme")||"auto";("dark"===t||e&&"light"!==t)&&document.documentElement.classList.toggle("dark",!0)}()</script>
+
+<meta charset="utf-8" >
+
+<title>linux-常用命令</title>
+<meta name="keywords" content="linux-常用命令, 郭海林的博客">
+<meta name="description" content="Linux 命令是在命令行上运行的程序。命令行是接受文本行并将其处理成计算机指令的界面。任何图形用户界面 (GUI) 都是命令行程序的抽象。通过 GUI 进行多步骤处理的任务可以通过在 CLI 中键入命令在几秒钟内完成。因此，学习基本的命令">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" href="/style/main.css">
+
+
+<link rel="stylesheet" href="/style/jquery.fancybox.min.css">
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+  <body>
+    <div id="app" class="main">
+
+<div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="http://www.guohailin.com">
+        <img class="avatar" src="/images/avatar.png" alt="logo" width="32px" height="32px">
+      </a>
+      <a href="http://www.guohailin.com">
+        <h1 class="site-title">郭海林的博客</h1>
+      </a>
+    </div>
+    <div class="right">
+        <i class="icon menu-switch icon-menu-outline" ></i>
+    </div>
+  </div>
+</div>
+
+<div class="menu-container" style="height: 0;opacity: 0;">
+<nav class="menu-list">
+  
+    
+      <a href="/" class="menu purple-link">
+        首页
+      </a>
+    
+  
+    
+      <a href="/tags" class="menu purple-link">
+        标签
+      </a>
+    
+  
+    
+      <a href="/archives" class="menu purple-link">
+        归档
+      </a>
+    
+  
+    
+      <a href="/about" class="menu purple-link">
+        关于
+      </a>
+    
+  
+</nav>
+</div>
+
+
+
+  <div class="content-container">
+    <div class="post-detail">
+      
+      <h2 class="post-title">linux-常用命令</h2>
+      <div class="post-info post-detail-info">
+        <span><i class="icon icon-calendar-outline"></i> 2023-03-18</span>
+        
+          <span>
+          <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="/tags/linux/">
+              linux
+                
+              </a>
+            
+          </span>
+        
+      </div>
+      <div class="post-content-wrapper">
+        <div class="post-content">
+          <p>Linux 命令是在命令行上运行的程序。命令行是接受文本行并将其处理成计算机指令的界面。任何图形用户界面 (GUI) 都是命令行程序的抽象。通过 GUI 进行多步骤处理的任务可以通过在 CLI 中键入命令在几秒钟内完成。因此，学习基本的命令行有助于提升工作效率。</p>
+<h2 id="一、文件管理"><a href="#一、文件管理" class="headerlink" title="一、文件管理"></a>一、文件管理</h2><h3 id="1-cat"><a href="#1-cat" class="headerlink" title="1. cat"></a>1. cat</h3><p>cat 命令用于连接文件并打印到标准输出设备上。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> index.html</span><br></pre></td></tr></table></figure>
+<p>使用 cat &gt; filename c可以创建一个新文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &gt; style.css</span><br></pre></td></tr></table></figure>
+<p>使用 cat filename1 filename2 &gt;&gt; filename3 可以连接两个文件（1 和 2）并将它们的输出内容存储在一个新文件3中。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> filename1 filename2 &gt;&gt; filename3 </span><br></pre></td></tr></table></figure>
+<h3 id="2-rmdir"><a href="#2-rmdir" class="headerlink" title="2. rmdir"></a>2. rmdir</h3><p>rmdir 命令用于删除空的目录。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rmdir</span> test1</span><br></pre></td></tr></table></figure>
+<h3 id="3-rm"><a href="#3-rm" class="headerlink" title="3. rm"></a>3. rm</h3><p>rm 命令用于删除一个文件或者目录。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> index.html index.css</span><br><span class="line"><span class="built_in">rm</span> index.css</span><br></pre></td></tr></table></figure>
+<p>我们还可以使用 rm -rf 命令来快速删除文件夹&#x2F;目录及其内容。</p>
+<blockquote>
+<p>使用此命令需要非常小心，并仔细检查所在的目录。这个操作将删除所有内容并且无法撤消。</p>
+</blockquote>
+<h3 id="4-touch"><a href="#4-touch" class="headerlink" title="4. touch"></a>4. touch</h3><p>touch 命令用于修改文件或者目录的时间属性，包括存取时间和更改时间。若文件不存在，系统会建立一个新的文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> index.html</span><br></pre></td></tr></table></figure>
+<p>果不添加任何参数，就会将文件的修改时间改为当前的系统时间。</p>
+<h3 id="5-cp"><a href="#5-cp" class="headerlink" title="5. cp"></a>5. cp</h3><p>cp 命令主要用于复制文件或目录。使用该指令复制目录时，必须使用参数 -r 或者 -R 。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> file file1 </span><br><span class="line"><span class="built_in">cp</span> -r <span class="built_in">test</span> test1</span><br></pre></td></tr></table></figure>
+<h3 id="6-mv"><a href="#6-mv" class="headerlink" title="6. mv"></a>6. mv</h3><p>mv 命令用来为文件或目录改名（如果目录名称不存在）、或将文件或目录移入其它位置。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mv</span> test1 <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+<p>这里将 test1 文件移动到了 test 文件中。</p>
+<h3 id="7-locate"><a href="#7-locate" class="headerlink" title="7. locate"></a>7. locate</h3><p>locate命令用于查找符合条件的文档，他会去保存文档和目录名称的数据库内，查找合乎范本样式条件的文档或目录。一般情况下，只需要输入 locate file_name 即可查找指定文件。</p>
+<h2 id="二、磁盘管理"><a href="#二、磁盘管理" class="headerlink" title="二、磁盘管理"></a>二、磁盘管理</h2><h3 id="1-cd"><a href="#1-cd" class="headerlink" title="1. cd"></a>1. cd</h3><p>cd 命令用于切换当前工作目录，需要与文件&#x2F;目录名称一起使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/</span><br></pre></td></tr></table></figure>
+<p>这里的目录&#x2F;文件名称可以是一个绝对路径或者相对路径。若目录名称省略，则变换至使用者的 home 目录 (也就是刚 login 时所在的目录)。另外，~ 表示为 home 目录， . 表示目前所在的目录， .. 表示目前目录位置的上一层目录。</p>
+<h3 id="2-mkdir"><a href="#2-mkdir" class="headerlink" title="2. mkdir"></a>2. mkdir</h3><p>mkdir 命令用来在当前位置（当前目录）新建一个文件夹。只需使用该命令加上需要新建文件夹的名称即可：</p>
+<ol start="3">
+<li>pwd<br>pwd 命令用来查看当前文件（文件夹）在文件系统中的绝对路径。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">pwd</span></span><br><span class="line">/e/study/blog</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="4-ls"><a href="#4-ls" class="headerlink" title="4. ls"></a>4. ls</h3><p>ls 命令用来展示指定工作目录下之内容，会列出目前工作目录所含之文件及子目录。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span></span><br><span class="line"><span class="built_in">ls</span> -l</span><br><span class="line"><span class="built_in">ls</span> -a</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>ls -l</code>   命令会以长列表的形式来输出所有内容，使用该命令时，终端会输出所有文件的更多信息，比如权限、文件所有者、文件大小、日期等：</li>
+<li><code>ls -a</code>  命令会列举出文件夹&#x2F;目录中所有的文件，包括隐藏文件<br>我们还可以将两个参数放在一起使用，输出的结果将是两个参数分别执行时的效果</li>
+</ul>
+<h2 id="三、系统设置"><a href="#三、系统设置" class="headerlink" title="三、系统设置"></a>三、系统设置</h2><h3 id="1-clear"><a href="#1-clear" class="headerlink" title="1. clear"></a>1. clear</h3><p>clear 命令用于清除屏幕。</p>
+<h3 id="2-uptime"><a href="#2-uptime" class="headerlink" title="2. uptime"></a>2. uptime</h3><p>在linux中，uptime命令用来显示我们的系统运行了多少时间、当前登录的用户数，操作系统在过去的1、5、15分钟内的平均负载。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">uptime</span></span><br><span class="line"></span><br><span class="line">22:52  up 10 days,  8:57, 2 <span class="built_in">users</span>, load averages: 4.63 4.15 3.13</span><br></pre></td></tr></table></figure>
+
+<p>我们可以使用uptime来确定是服务器还是网络出了问题。例如如果网络应用程序运行，运行uptime来了解系统负载是否很高。如果负载不高，这个问题很有可能是由于网络引起的而非服务器。</p>
+<p>可以使用 w 命令来代替 uptime。w 也提供关于当前系统登录用户和用户所进行工作的相关信息。</p>
+<h2 id="四、系统管理"><a href="#四、系统管理" class="headerlink" title="四、系统管理"></a>四、系统管理</h2><h3 id="1-date"><a href="#1-date" class="headerlink" title="1. date"></a>1. date</h3><p>date 命令用来查看当前系统的日期和时间，我们还可以格式化当前的时间：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">date</span></span><br><span class="line">2023年03月18日 13:37:03</span><br></pre></td></tr></table></figure>
+<h3 id="2-kill"><a href="#2-kill" class="headerlink" title="2. kill"></a>2. kill</h3><p>kill 命令用于删除执行中的程序或工作。kill 可将指定的信息送至程序。预设的信息为 SIGTERM(15)，可将指定程序终止。若仍无法终止该程序，可使用 SIGKILL(9) 信息尝试强制删除程序。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">kill</span> -9 3000</span><br></pre></td></tr></table></figure>
+<h3 id="3-ps"><a href="#3-ps" class="headerlink" title="3. ps"></a>3. ps</h3><p>ps 命令用于显示当前进程的状态，类似于 windows 的任务管理器。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ ps</span><br><span class="line">      PID    PPID    PGID     WINPID   TTY         UID    STIME COMMAND</span><br><span class="line">     1908       1    1908      11308  cons1     197108 09:54:35 /usr/bin/bash</span><br><span class="line">     1947    1908    1947       5356  cons1     197108 09:57:22 /d/Program Files/nodejs/node</span><br><span class="line">     1954       1    1954      17992  cons0     197108 11:55:45 /usr/bin/bash</span><br><span class="line">     1980    1954    1980      17656  cons0     197108 13:38:18 /usr/bin/ps</span><br></pre></td></tr></table></figure>
+<h3 id="4-top"><a href="#4-top" class="headerlink" title="4. top"></a>4. top</h3><p>top 命令用于实时显示 process 的动态。<br>5. who<br>who 命令用来返回用户名、主机信息、日期、时间。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">who</span></span><br><span class="line">mac      console  Jan 15 13:55</span><br><span class="line">mac      ttys004  Jan 25 22:52</span><br></pre></td></tr></table></figure>
+<h3 id="6-sudo"><a href="#6-sudo" class="headerlink" title="6. sudo"></a>6. sudo</h3><p>sudo 命令会以系统管理员的身份执行指令，也就是说，经由 sudo 所执行的指令就好像是 root 亲自执行的。</p>
+<h3 id="7-history"><a href="#7-history" class="headerlink" title="7. history"></a>7. history</h3><p>history 命令用来查看历史记录。它显示了在终端中所执行过的所有命令的历史。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">history</span></span><br><span class="line"><span class="comment"># ...</span></span><br></pre></td></tr></table></figure>
+<h3 id="8-exit"><a href="#8-exit" class="headerlink" title="8. exit"></a>8. exit</h3><p>exit 命令用于退出当前的shell。执行exit可使shell以指定的状态值退出。若不设置状态值参数，则shell以预设值退出。状态值0代表执行成功，其他值代表执行失败。exit也可用在script，离开正在执行的script，回到shell。</p>
+<h2 id="五、其他"><a href="#五、其他" class="headerlink" title="五、其他"></a>五、其他</h2><h3 id="1-ssh"><a href="#1-ssh" class="headerlink" title="1. ssh"></a>1. ssh</h3><p>ssh 命令用于连接基于 Linux 的远程主机。要使用 root 用户连接远程主机，需要使用以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@192.168.4.21</span><br></pre></td></tr></table></figure>
+<p>上面的命令将不支持 GUI，如果想使用 GUI 连接远程主机，需要使用下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -XY root@192.168.4.21</span><br></pre></td></tr></table></figure>
+<h3 id="2-tar"><a href="#2-tar" class="headerlink" title="2. tar"></a>2. tar</h3><p>tar 命令用于备份文件。tar 是用来建立，还原备份文件的工具程序，它可以加入，解开备份文件内的文件。<br>压缩文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -czvf test.tar.gz a.c   //压缩 a.c文件为test.tar.gz a.c</span><br></pre></td></tr></table></figure>
+<p>解压文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf test.tar.gz  a.c</span><br></pre></td></tr></table></figure>
+<h3 id="3-grep"><a href="#3-grep" class="headerlink" title="3. grep"></a>3. grep</h3><p>grep 命令用于查找文件里符合条件的字符串。如果发现某文件的内容符合所指定的范本样式，预设 grep 指令会把含有范本样式的那一列显示出来。若不指定任何文件名称，或是所给予的文件名为 -，则 grep 指令会从标准输入设备读取数据。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep nginx xxxfile</span><br></pre></td></tr></table></figure>
+<h3 id="4-ping"><a href="#4-ping" class="headerlink" title="4. ping"></a>4. ping</h3><p>ping 命令用于检测主机。执行 ping 指令会使用 ICMP 传输协议，发出要求回应的信息，若远端主机的网络功能没有问题，就会回应该信息，因而得知该主机运作正常。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ping www.baidu.com</span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line">ping 192.168.1.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-man"><a href="#5-man" class="headerlink" title="5. man"></a>5. man</h3><p>man命令用来查看Linux命令的使用手册,</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">man clear</span><br><span class="line"><span class="comment"># 出现clear命令的使用说明</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-wc"><a href="#6-wc" class="headerlink" title="6. wc"></a>6. wc</h3><p>wc命令用于计算字数。利用wc指令我们可以计算文件的Byte数、字数、或是列数，若不指定文件名称、或是所给予的文件名为”-“，则wc指令会从标准输入设备读取数据。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">wc</span> file</span><br></pre></td></tr></table></figure>
+
+        </div>
+        <div class="top-div">
+          <ol class="top-box"><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%B8%80%E3%80%81%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="top-box-text">一、文件管理</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#1-cat"><span class="top-box-text">1. cat</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#2-rmdir"><span class="top-box-text">2. rmdir</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#3-rm"><span class="top-box-text">3. rm</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#4-touch"><span class="top-box-text">4. touch</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#5-cp"><span class="top-box-text">5. cp</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#6-mv"><span class="top-box-text">6. mv</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#7-locate"><span class="top-box-text">7. locate</span></a></li></ol></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%BA%8C%E3%80%81%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86"><span class="top-box-text">二、磁盘管理</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#1-cd"><span class="top-box-text">1. cd</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#2-mkdir"><span class="top-box-text">2. mkdir</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#4-ls"><span class="top-box-text">4. ls</span></a></li></ol></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%B8%89%E3%80%81%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE"><span class="top-box-text">三、系统设置</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#1-clear"><span class="top-box-text">1. clear</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#2-uptime"><span class="top-box-text">2. uptime</span></a></li></ol></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E5%9B%9B%E3%80%81%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86"><span class="top-box-text">四、系统管理</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#1-date"><span class="top-box-text">1. date</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#2-kill"><span class="top-box-text">2. kill</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#3-ps"><span class="top-box-text">3. ps</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#4-top"><span class="top-box-text">4. top</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#6-sudo"><span class="top-box-text">6. sudo</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#7-history"><span class="top-box-text">7. history</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#8-exit"><span class="top-box-text">8. exit</span></a></li></ol></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%BA%94%E3%80%81%E5%85%B6%E4%BB%96"><span class="top-box-text">五、其他</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#1-ssh"><span class="top-box-text">1. ssh</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#2-tar"><span class="top-box-text">2. tar</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#3-grep"><span class="top-box-text">3. grep</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#4-ping"><span class="top-box-text">4. ping</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#5-man"><span class="top-box-text">5. man</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#6-wc"><span class="top-box-text">6. wc</span></a></li></ol></li></ol>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="next-post">
+        <a class="purple-link" href="/2023/03/17/qian-duan/css/css-bian-liang/">
+          <h3 class="post-title">
+            下一篇：CSS 居中布局
+          </h3>
+        </a>
+      </div>
+    
+  </div>
+
+
+
+
+<footer>
+<div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/ghlyibu" target="_blank">
+          <i class="icon icon-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> <a href="https://github.com/f-dong/hexo-theme-minimalism" target="_blank">Theme</a>
+  
+  
+  
+    
+     |
+    
+      <a class="icp" href="https://beian.miit.gov.cn/" target="_blank">蜀ICP备2020031778号</a>
+  
+  
+</div>
+</footer>
+
+
+      </div>
+      
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.fancybox.min.js"></script>
+
+
+<script id="hexo-configurations">
+    window.theme_config = {"image":{"lazyload_enable":false}};
+    window.is_post = true;
+  </script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+    </div>
+  </body>
+</html>
+
