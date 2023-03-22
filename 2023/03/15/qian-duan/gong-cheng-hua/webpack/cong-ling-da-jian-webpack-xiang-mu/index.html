@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    
+
+<script>!function(){var e=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,t=localStorage.getItem("use-color-scheme")||"auto";("dark"===t||e&&"light"!==t)&&document.documentElement.classList.toggle("dark",!0)}()</script>
+
+<meta charset="utf-8" >
+
+<title>从零搭建webpack项目</title>
+<meta name="keywords" content="从零搭建webpack项目, 郭海林的博客">
+<meta name="description" content="概述本文基于webpack5.x,pnpm包管理器 从零搭建一个 js 项目的基础开发模板
+目录[toc]
+1. 文件结构1234567891011├─config│      ├─ webpack.base.js // webpack 基">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" href="/style/main.css">
+
+
+<link rel="stylesheet" href="/style/jquery.fancybox.min.css">
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+  <body>
+    <div id="app" class="main">
+
+<div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="http://www.guohailin.com">
+        <img class="avatar" src="/images/avatar.png" alt="logo" width="32px" height="32px">
+      </a>
+      <a href="http://www.guohailin.com">
+        <h1 class="site-title">郭海林的博客</h1>
+      </a>
+    </div>
+    <div class="right">
+        <i class="icon menu-switch icon-menu-outline" ></i>
+    </div>
+  </div>
+</div>
+
+<div class="menu-container" style="height: 0;opacity: 0;">
+<nav class="menu-list">
+  
+    
+      <a href="/" class="menu purple-link">
+        首页
+      </a>
+    
+  
+    
+      <a href="/tags" class="menu purple-link">
+        标签
+      </a>
+    
+  
+    
+      <a href="/archives" class="menu purple-link">
+        归档
+      </a>
+    
+  
+    
+      <a href="/about" class="menu purple-link">
+        关于
+      </a>
+    
+  
+</nav>
+</div>
+
+
+
+  <div class="content-container">
+    <div class="post-detail">
+      
+      <h2 class="post-title">从零搭建webpack项目</h2>
+      <div class="post-info post-detail-info">
+        <span><i class="icon icon-calendar-outline"></i> 2023-03-15</span>
+        
+          <span>
+          <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="/tags/webpack/">
+              webpack
+                
+              </a>
+            
+          </span>
+        
+      </div>
+      <div class="post-content-wrapper">
+        <div class="post-content">
+          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>本文基于webpack5.x,pnpm包管理器 从零搭建一个 js 项目的基础开发模板</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>[toc]</p>
+<h2 id="1-文件结构"><a href="#1-文件结构" class="headerlink" title="1. 文件结构"></a>1. 文件结构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">├─config</span><br><span class="line">│      ├─ webpack.base.js // webpack 基本配置</span><br><span class="line">│      ├─ webpack.dev.js // webpack 开发环境配置</span><br><span class="line">│      └─ webpack.prod.js // webpack 打包配置</span><br><span class="line">├─public</span><br><span class="line">│      └─index.html // 模板文件</span><br><span class="line">├─src</span><br><span class="line">│   └─index.js // 入口文件</span><br><span class="line">├─.gitignore // git忽略文件配置</span><br><span class="line">├─ package.json</span><br><span class="line">└─ pnpm-lock.yaml</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-初始化wepack"><a href="#2-初始化wepack" class="headerlink" title="2. 初始化wepack"></a>2. 初始化wepack</h2><h3 id="1-安装webpack"><a href="#1-安装webpack" class="headerlink" title="1. 安装webpack"></a>1. 安装webpack</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm i -D webpack@5.76.2 webpack-cli@5.0.1 webpack-dev-server@4.13.1 webpack-merge@5.8.0</span><br></pre></td></tr></table></figure>
+<h3 id="2-说明"><a href="#2-说明" class="headerlink" title="2. 说明"></a>2. 说明</h3><table>
+<thead>
+<tr>
+<th>包名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>webpack</td>
+<td>Title</td>
+</tr>
+<tr>
+<td>webpack-cli</td>
+<td>命令行接口（CLI）</td>
+</tr>
+<tr>
+<td>webpack-dev-server</td>
+<td>node服务器</td>
+</tr>
+<tr>
+<td>webpack-merge</td>
+<td>用于合并配置</td>
+</tr>
+</tbody></table>
+<h3 id="3-配置"><a href="#3-配置" class="headerlink" title="3. 配置"></a>3. 配置</h3><h4 id="（1）webpack-base-js-公共基本配置"><a href="#（1）webpack-base-js-公共基本配置" class="headerlink" title="（1）webpack.base.js 公共基本配置"></a>（1）webpack.base.js 公共基本配置</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">HtmlWebpackPlugin</span> = <span class="built_in">require</span>(<span class="string">&quot;html-webpack-plugin&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">CopyPlugin</span> = <span class="built_in">require</span>(<span class="string">&quot;copy-webpack-plugin&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> resolve = <span class="keyword">function</span> (<span class="params">dir</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> path.<span class="title function_">resolve</span>(__dirname, dir);</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    <span class="attr">entry</span>: <span class="title function_">resolve</span>(<span class="string">&quot;../src/index.js&quot;</span>),</span><br><span class="line">    <span class="attr">output</span>: &#123;</span><br><span class="line">        <span class="attr">path</span>: path.<span class="title function_">resolve</span>(__dirname, <span class="string">&quot;../dist&quot;</span>),</span><br><span class="line">        <span class="attr">filename</span>: <span class="string">&quot;js/[name].js&quot;</span>,</span><br><span class="line">        <span class="attr">clean</span>: <span class="literal">true</span>, <span class="comment">// webpack 5.x 在生成文件之前清空 output 目录</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">resolve</span>: &#123;</span><br><span class="line">        <span class="attr">alias</span>: &#123;</span><br><span class="line">            <span class="string">&quot;@&quot;</span>: path.<span class="title function_">resolve</span>(__dirname, <span class="string">&quot;../src&quot;</span>)</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">extensions</span>: [<span class="string">&quot;.ts&quot;</span>, <span class="string">&quot;.tsx&quot;</span>, <span class="string">&quot;.js&quot;</span>, <span class="string">&quot;.jsx&quot;</span>, <span class="string">&quot;.vue&quot;</span>, <span class="string">&quot;.json&quot;</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">plugins</span>: [</span><br><span class="line">        <span class="comment">// HTML模板</span></span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">HtmlWebpackPlugin</span>(&#123;</span><br><span class="line">            <span class="attr">template</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&quot;../public/index.html&quot;</span>)</span><br><span class="line">        &#125;),</span><br><span class="line">        <span class="comment">// 配置copy public下的文件</span></span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">CopyPlugin</span>(</span><br><span class="line">            &#123;</span><br><span class="line">              <span class="attr">patterns</span>: [</span><br><span class="line">                &#123;</span><br><span class="line">                  <span class="attr">from</span>: path.<span class="title function_">resolve</span>(__dirname, <span class="string">&quot;../public&quot;</span>),</span><br><span class="line">                  <span class="attr">to</span>: path.<span class="title function_">resolve</span>(__dirname, <span class="string">&quot;../dist&quot;</span>),</span><br><span class="line">                  <span class="attr">toType</span>: <span class="string">&#x27;dir&#x27;</span>,</span><br><span class="line">                  <span class="attr">noErrorOnMissing</span>: <span class="literal">true</span>,</span><br><span class="line">                  <span class="attr">globOptions</span>: &#123;</span><br><span class="line">                    <span class="comment">// 过滤 index.html</span></span><br><span class="line">                    <span class="attr">ignore</span>: [</span><br><span class="line">                      <span class="string">&#x27;**/.DS_Store&#x27;</span>,</span><br><span class="line">                      path.<span class="title function_">join</span>(__dirname, <span class="string">&quot;../public/index.html&quot;</span>).<span class="title function_">replace</span>(<span class="regexp">/\\/g</span>, <span class="string">&#x27;/&#x27;</span>)</span><br><span class="line">                    ]</span><br><span class="line">                  &#125;,</span><br><span class="line">                  <span class="attr">info</span>: &#123;</span><br><span class="line">                    <span class="attr">minimized</span>: <span class="literal">true</span></span><br><span class="line">                  &#125;</span><br><span class="line">                &#125;</span><br><span class="line">              ]</span><br><span class="line">            &#125;</span><br><span class="line">          )</span><br><span class="line">    ],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="（2）webpack-dev-js-开发环境配置"><a href="#（2）webpack-dev-js-开发环境配置" class="headerlink" title="（2）webpack.dev.js 开发环境配置"></a>（2）webpack.dev.js 开发环境配置</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; merge &#125; =  <span class="built_in">require</span>(<span class="string">&quot;webpack-merge&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> base =  <span class="built_in">require</span>(<span class="string">&quot;./webpack.base.js&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="title function_">merge</span>(base,&#123;</span><br><span class="line">    <span class="attr">mode</span>: <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">    <span class="attr">devServer</span>: &#123;</span><br><span class="line">        <span class="attr">port</span>: <span class="number">8080</span>,</span><br><span class="line">        <span class="attr">static</span>: &#123;</span><br><span class="line">            <span class="attr">directory</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&quot;../public&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="3-webpack-prod-js-生产环境配置"><a href="#3-webpack-prod-js-生产环境配置" class="headerlink" title="(3) webpack.prod.js 生产环境配置"></a>(3) webpack.prod.js 生产环境配置</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; merge &#125; =  <span class="built_in">require</span>(<span class="string">&quot;webpack-merge&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> base =  <span class="built_in">require</span>(<span class="string">&quot;./webpack.base.js&quot;</span>);</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="title function_">merge</span>(base,&#123;</span><br><span class="line">    <span class="attr">mode</span>: <span class="string">&#x27;production&#x27;</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="4-修改package-json-文件中启动命令"><a href="#4-修改package-json-文件中启动命令" class="headerlink" title="(4) 修改package.json 文件中启动命令"></a>(4) 修改<code>package.json</code> 文件中启动命令</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;dev&quot;</span><span class="punctuation">:</span> <span class="string">&quot;webpack serve --config ./config/webpack.dev.js&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;build&quot;</span><span class="punctuation">:</span> <span class="string">&quot;webpack build --config ./config/webpack.prod.js&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-添加es6语法支持"><a href="#3-添加es6语法支持" class="headerlink" title="3. 添加es6语法支持"></a>3. 添加es6语法支持</h2><h2 id="4-css文件支持"><a href="#4-css文件支持" class="headerlink" title="4. css文件支持"></a>4. css文件支持</h2><h2 id="5-媒体文件配置"><a href="#5-媒体文件配置" class="headerlink" title="5. 媒体文件配置"></a>5. 媒体文件配置</h2><h2 id="6-添加typescript支持"><a href="#6-添加typescript支持" class="headerlink" title="6. 添加typescript支持"></a>6. 添加typescript支持</h2><h2 id="7-eslint-prettier"><a href="#7-eslint-prettier" class="headerlink" title="7. eslint+prettier"></a>7. eslint+prettier</h2><h2 id="8-husky"><a href="#8-husky" class="headerlink" title="8. husky"></a>8. husky</h2>
+        </div>
+        <div class="top-div">
+          <ol class="top-box"><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E6%A6%82%E8%BF%B0"><span class="top-box-text">概述</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E7%9B%AE%E5%BD%95"><span class="top-box-text">目录</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#1-%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="top-box-text">1. 文件结构</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#2-%E5%88%9D%E5%A7%8B%E5%8C%96wepack"><span class="top-box-text">2. 初始化wepack</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#1-%E5%AE%89%E8%A3%85webpack"><span class="top-box-text">1. 安装webpack</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#2-%E8%AF%B4%E6%98%8E"><span class="top-box-text">2. 说明</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#3-%E9%85%8D%E7%BD%AE"><span class="top-box-text">3. 配置</span></a></li></ol></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#3-%E6%B7%BB%E5%8A%A0es6%E8%AF%AD%E6%B3%95%E6%94%AF%E6%8C%81"><span class="top-box-text">3. 添加es6语法支持</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#4-css%E6%96%87%E4%BB%B6%E6%94%AF%E6%8C%81"><span class="top-box-text">4. css文件支持</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#5-%E5%AA%92%E4%BD%93%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="top-box-text">5. 媒体文件配置</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#6-%E6%B7%BB%E5%8A%A0typescript%E6%94%AF%E6%8C%81"><span class="top-box-text">6. 添加typescript支持</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#7-eslint-prettier"><span class="top-box-text">7. eslint+prettier</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#8-husky"><span class="top-box-text">8. husky</span></a></li></ol>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+
+
+
+
+<footer>
+<div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/ghlyibu" target="_blank">
+          <i class="icon icon-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> <a href="https://github.com/f-dong/hexo-theme-minimalism" target="_blank">Theme</a>
+  
+  
+  
+    
+     |
+    
+      <a class="icp" href="https://beian.miit.gov.cn/" target="_blank">蜀ICP备2020031778号</a>
+  
+  
+</div>
+</footer>
+
+
+      </div>
+      
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.fancybox.min.js"></script>
+
+
+<script id="hexo-configurations">
+    window.theme_config = {"image":{"lazyload_enable":false}};
+    window.is_post = true;
+  </script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+    </div>
+  </body>
+</html>
+
