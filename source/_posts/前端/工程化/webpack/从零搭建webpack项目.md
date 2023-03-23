@@ -1,5 +1,5 @@
 ---
-title: 从零搭建webpack项目
+title: 基于 webpack5.x 从零搭建react项目
 date: 2023-03-15 08:50:50
 tags:
   - webpack
@@ -7,10 +7,7 @@ tags:
 ## 概述
 本文基于webpack5.x,pnpm包管理器 从零搭建一个 js 项目的基础开发模板
 
-## 目录
-[toc]
-
-## 1. 文件结构
+## 一. 文件结构
 ```
 ├─config
 │      ├─ webpack.base.js // webpack 基本配置
@@ -25,7 +22,7 @@ tags:
 └─ pnpm-lock.yaml
 ```
 
-## 2. 初始化wepack
+## 二. 初始化wepack
 
 ### 1. 安装webpack
 ```bash
@@ -128,9 +125,188 @@ module.exports = merge(base,{
 }
 ```
 
-## 3. 添加es6语法支持
-## 4. css文件支持
-## 5. 媒体文件配置
-## 6. 添加typescript支持
-## 7. eslint+prettier
-## 8. husky
+## 三. 添加es6语法兼容支持
+### 1. 安装babel
+```bash
+pnpm i -D babel-loader @babel/core @babel/plugin-transform-runtime @babel/preset-env
+```
+### 2. 修改配置
+1）在根目录创建 `.babelrc`或者`babel.config.js` 文件, 写入配置
+```js
+{
+    "presets": [
+      "@babel/preset-env" // 根据配置的目标浏览器或者运行环境，选择对应的语法包，从而将代码进行转换
+    ],
+    "plugins": [
+      [
+        "@babel/plugin-transform-runtime", // 作用是减少冗余的代码
+        {
+          "regenerator": true
+        }
+      ]
+    ]
+}
+```
+修改webpack.base.js 配置
+```js
+module.exports = {
+  // ...
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: [
+          {
+            loader:'babel-loader',
+            options: {
+              cacheCompression: false,
+            }
+          }
+        ]
+      }
+    ]
+  },
+  // ...
+}
+```
+## 四. 添加typescript支持
+### 1. 安装typescript依赖
+```bash
+pnpm i -D typescript @babel/preset-typescript
+```
+### 2. 修改配置
+修改webpack.base.js 配置
+```js
+module.exports = {
+  // ...
+  module: {
+    rules: [
+      {
+        test: /\.(jsx?|tsx?)$/,
+        use: [
+          {
+            loader:'babel-loader',
+            options: {
+              cacheCompression: false,
+            }
+          }
+        ]
+      }
+    ]
+  },
+  // ...
+}
+```
+修改babel配置
+```js
+{
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-typescript"
+    ],
+    "plugins": [
+      [
+        "@babel/plugin-transform-runtime",
+        {
+          "regenerator": true
+        }
+      ]
+    ]
+}
+```
+创建 `tsconfig.json`
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src"
+      ]
+    },
+    "target": "es2016",
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ],
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
+```
+## 五. react支持
+```bash
+pnpm i -D react react-dom
+```
+修改Babel配置
+```js
+{
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      "@babel/preset-typescript"
+    ],
+    "plugins": [
+      [
+        "@babel/plugin-transform-runtime",
+        {
+          "regenerator": true
+        }
+      ]
+    ]
+}
+```
+在src/index.tsx，src/App.tsx 文件
+src/App.tsx 写入
+```tsx
+import React from "react";
+const App = () => {
+  return (
+    <div>Webacpk5</div>
+  )
+}
+export default App;
+```
+src/index.tsx 写入
+```tsx
+import React from "react";
+import * as ReactDOMClient from 'react-dom/client';
+import App from './App';
+const dom = document.getElementById("root")
+
+const root = ReactDOMClient.createRoot(dom as HTMLElement)
+root.render(<App />);
+```
+修改webpack配置
+```js
+module.exports = {
+  entry: resolve("../src/index.tsx"),
+  // ...
+}
+```
+## 六. 媒体文件配置
+
+## 七. eslint+prettier+husky
