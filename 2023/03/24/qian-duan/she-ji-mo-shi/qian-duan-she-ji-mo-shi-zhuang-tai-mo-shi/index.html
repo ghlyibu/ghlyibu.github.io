@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    
+
+<script>!function(){var e=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,t=localStorage.getItem("use-color-scheme")||"auto";("dark"===t||e&&"light"!==t)&&document.documentElement.classList.toggle("dark",!0)}()</script>
+
+<meta charset="utf-8" >
+
+<title>前端设计模式-状态模式</title>
+<meta name="keywords" content="前端设计模式-状态模式, 郭海林的博客">
+<meta name="description" content="一. 什么是状态模式？状态模式 （State Pattern）允许一个对象在其内部状态改变时改变它的行为，对象看起来似乎修改了它的类，类的行为随着它的状态改变而改变。状态模式主要解决的是当控制一个对象状态的条件表达式过于复杂时的情况。把状态">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" href="/style/main.css">
+
+
+<link rel="stylesheet" href="/style/jquery.fancybox.min.css">
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+  <body>
+    <div id="app" class="main">
+
+<div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="http://www.guohailin.com">
+        <img class="avatar" src="/images/avatar.png" alt="logo" width="32px" height="32px">
+      </a>
+      <a href="http://www.guohailin.com">
+        <h1 class="site-title">郭海林的博客</h1>
+      </a>
+    </div>
+    <div class="right">
+        <i class="icon menu-switch icon-menu-outline" ></i>
+    </div>
+  </div>
+</div>
+
+<div class="menu-container" style="height: 0;opacity: 0;">
+<nav class="menu-list">
+  
+    
+      <a href="/" class="menu purple-link">
+        首页
+      </a>
+    
+  
+    
+      <a href="/tags" class="menu purple-link">
+        标签
+      </a>
+    
+  
+    
+      <a href="/archives" class="menu purple-link">
+        归档
+      </a>
+    
+  
+    
+      <a href="/about" class="menu purple-link">
+        关于
+      </a>
+    
+  
+</nav>
+</div>
+
+
+
+  <div class="content-container">
+    <div class="post-detail">
+      
+      <h2 class="post-title">前端设计模式-状态模式</h2>
+      <div class="post-info post-detail-info">
+        <span><i class="icon icon-calendar-outline"></i> 2023-03-24</span>
+        
+          <span>
+          <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+              设计模式
+                
+              </a>
+            
+          </span>
+        
+      </div>
+      <div class="post-content-wrapper">
+        <div class="post-content">
+          <h2 id="一-什么是状态模式？"><a href="#一-什么是状态模式？" class="headerlink" title="一. 什么是状态模式？"></a>一. 什么是状态模式？</h2><p>状态模式 （State Pattern）允许一个对象在其内部状态改变时改变它的行为，对象看起来似乎修改了它的类，类的行为随着它的状态改变而改变。<br>状态模式<strong>主要解决的是当控制一个对象状态的条件表达式过于复杂时的情况。把状态的判断逻辑转移到表示不同状态的一系列类中，可以把复杂的判断逻辑简化。</strong></p>
+<p>当程序需要根据不同的外部情况来做出不同操作时，最直接的方法就是使用 <code>switch-case</code> 或 <code>if-else</code> 语句将这些可能发生的情况全部兼顾到，但是这种做法应付复杂一点的状态判断时就有点力不从心，开发者得找到合适的位置添加或修改代码，这个过程很容易出错，这时引入状态模式可以某种程度上缓解这个问题。</p>
+<p>在等红绿灯的时候，红绿灯的状态和行人汽车的通行逻辑是有关联的：</p>
+<ol>
+<li>红灯亮：行人通行，车辆等待；</li>
+<li>绿灯亮：行人等待，车辆通行；</li>
+<li>黄灯亮：行人等待，车辆等待；</li>
+</ol>
+<p>还有下载文件时，有好几个状态，比如下载验证、下载中、暂停下载、下载完毕、下载失败，文件在不同状态下表现的行为也不一样，比如下载中时显示可以暂停下载和下载进度，下载失败时弹框提示并询问是否重新下载等等。类似的场景还有很多，比如女生作为你的朋友、好朋友、女朋友、老婆等不同状态的时候，行为也不同 。</p>
+<p><strong>在这些场景中，有以下特点：</strong></p>
+<ol>
+<li>对象有有限多个状态，且状态间可以相互切换；</li>
+<li>各个状态和对象的行为逻辑有比较强的对应关系，即在不同状态时，对应的处理逻辑不一样；</li>
+</ol>
+<h2 id="二-状态模式的实现"><a href="#二-状态模式的实现" class="headerlink" title="二. 状态模式的实现"></a>二. 状态模式的实现</h2><p>下面用最常用的方式来实现上面的红绿灯的例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> trafficLight = (<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> state = <span class="string">&#x27;绿灯&#x27;</span>        <span class="comment">// 闭包缓存状态</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="comment">// 设置交通灯状态 </span></span><br><span class="line">        <span class="attr">setState</span>: <span class="keyword">function</span>(<span class="params">target</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (target === <span class="string">&#x27;红灯&#x27;</span>) &#123;</span><br><span class="line">                state = <span class="string">&#x27;红灯&#x27;</span></span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;交通灯颜色变为 红色，行人通行 &amp; 车辆等待&#x27;</span>)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (target === <span class="string">&#x27;黄灯&#x27;</span>) &#123;</span><br><span class="line">                state = <span class="string">&#x27;黄灯&#x27;</span></span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;交通灯颜色变为 黄色，行人等待 &amp; 车辆等待&#x27;</span>)</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (target === <span class="string">&#x27;绿灯&#x27;</span>) &#123;</span><br><span class="line">                state = <span class="string">&#x27;绿灯&#x27;</span></span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;交通灯颜色变为 绿色，行人等待 &amp; 车辆通行&#x27;</span>)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;交通灯还有这颜色？&#x27;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 获取交通灯状态 </span></span><br><span class="line">        <span class="attr">getState</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> state</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)()</span><br><span class="line"></span><br><span class="line">trafficLight.<span class="title function_">setState</span>(<span class="string">&#x27;红灯&#x27;</span>) <span class="comment">// 输出： 交通灯颜色变为 红色，行人通行 &amp; 车辆等待</span></span><br><span class="line">trafficLight.<span class="title function_">setState</span>(<span class="string">&#x27;黄灯&#x27;</span>) <span class="comment">// 输出： 交通灯颜色变为 黄色，行人等待 &amp; 车辆等待</span></span><br><span class="line">trafficLight.<span class="title function_">setState</span>(<span class="string">&#x27;绿灯&#x27;</span>) <span class="comment">// 输出： 交通灯颜色变为 绿色，行人等待 &amp; 车辆通行</span></span><br><span class="line"></span><br><span class="line">trafficLight.<span class="title function_">setState</span>(<span class="string">&#x27;紫灯&#x27;</span>) <span class="comment">// 输出： 交通灯还有这颜色？</span></span><br></pre></td></tr></table></figure>
+
+<p>在实际项目中，if-else 伴随的业务逻辑处理通常比较复杂，找到要修改的状态就不容易，特别是如果是别人的代码，或者接手遗留项目时，需要看完这个 if-else 的分支处理逻辑，新增或修改分支逻辑的过程中也很容易引入 Bug。</p>
+<p>正式因为这样非常的不方便维护状态及其对应的行为，所以引入了状态模式的理念，状态模式把每种状态和对应的处理逻辑封装在一起，比如下面用一个类实例将红绿灯的逻辑封装起来：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 抽象状态类 </span></span><br><span class="line"><span class="keyword">var</span> <span class="title class_">AbstractState</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 抽象方法 </span></span><br><span class="line"><span class="title class_">AbstractState</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">employ</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;抽象方法不能调用!&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 交通灯状态类 </span></span><br><span class="line"><span class="keyword">var</span> <span class="title class_">State</span> = <span class="keyword">function</span>(<span class="params">name, desc</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">color</span> = &#123; name, desc &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title class_">State</span>.<span class="property"><span class="keyword">prototype</span></span> = <span class="keyword">new</span> <span class="title class_">AbstractState</span>()</span><br><span class="line"><span class="title class_">State</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">employ</span> = <span class="keyword">function</span>(<span class="params">trafficLight</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;交通灯颜色变为 &#x27;</span> + <span class="variable language_">this</span>.<span class="property">color</span>.<span class="property">name</span> + <span class="string">&#x27;，&#x27;</span> + <span class="variable language_">this</span>.<span class="property">color</span>.<span class="property">desc</span>)</span><br><span class="line">    trafficLight.<span class="title function_">setState</span>(<span class="variable language_">this</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 交通灯类 </span></span><br><span class="line"><span class="keyword">var</span> <span class="title class_">TrafficLight</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">state</span> = <span class="literal">null</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取交通灯状态 </span></span><br><span class="line"><span class="title class_">TrafficLight</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">getState</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">state</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置交通灯状态 </span></span><br><span class="line"><span class="title class_">TrafficLight</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">setState</span> = <span class="keyword">function</span>(<span class="params">state</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">state</span> = state</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实例化一个红绿灯</span></span><br><span class="line"><span class="keyword">var</span> trafficLight = <span class="keyword">new</span> <span class="title class_">TrafficLight</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实例化红绿灯可能有的三种状态</span></span><br><span class="line"><span class="keyword">var</span> redState = <span class="keyword">new</span> <span class="title class_">State</span>(<span class="string">&#x27;红色&#x27;</span>, <span class="string">&#x27;行人等待 &amp; 车辆等待&#x27;</span>)</span><br><span class="line"><span class="keyword">var</span> greenState = <span class="keyword">new</span> <span class="title class_">State</span>(<span class="string">&#x27;绿色&#x27;</span>, <span class="string">&#x27;行人等待 &amp; 车辆通行&#x27;</span>)</span><br><span class="line"><span class="keyword">var</span> yellowState = <span class="keyword">new</span> <span class="title class_">State</span>(<span class="string">&#x27;黄色&#x27;</span>, <span class="string">&#x27;行人等待 &amp; 车辆等待&#x27;</span>)</span><br><span class="line"></span><br><span class="line">redState.<span class="title function_">employ</span>(trafficLight)    <span class="comment">// 输出： 交通灯颜色变为 红色，行人通行 &amp; 车辆等待</span></span><br><span class="line">yellowState.<span class="title function_">employ</span>(trafficLight) <span class="comment">// 输出： 交通灯颜色变为 黄色，行人等待 &amp; 车辆等待</span></span><br><span class="line">greenState.<span class="title function_">employ</span>(trafficLight)  <span class="comment">// 输出： 交通灯颜色变为 绿色，行人等待 &amp; 车辆通行</span></span><br></pre></td></tr></table></figure>
+
+<p>这里的不同状态是同一个类的类实例，比如 redState 这个类实例，就把所有红灯状态处理的逻辑封装起来，如果要把状态切换为红灯状态，那么只需要 redState.employ() 把交通灯的状态切换为红色，并且把交通灯对应的行为逻辑也切换为红灯状态。</p>
+<p><strong>状态模式与策略模式很相似：</strong></p>
+<ul>
+<li>策略模式把可以相互替换的策略算法提取出来</li>
+<li>状态模式把事物的状态及其行为提取出来。</li>
+</ul>
+<p>下面使用 ES6 的 Class 语法对上面的代码进行改造：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 抽象状态类 </span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AbstractState</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">new</span>.<span class="property">target</span> === <span class="title class_">AbstractState</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;抽象类不能直接实例化!&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 抽象方法 </span></span><br><span class="line">    <span class="title function_">employ</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;抽象方法不能调用!&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 交通灯类 </span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">State</span> <span class="keyword">extends</span> <span class="title class_ inherited__">AbstractState</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">name, desc</span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>()</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">color</span> = &#123; name, desc &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 覆盖抽象方法 </span></span><br><span class="line">    <span class="title function_">employ</span>(<span class="params">trafficLight</span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;交通灯颜色变为 &#x27;</span> + <span class="variable language_">this</span>.<span class="property">color</span>.<span class="property">name</span> + <span class="string">&#x27;，&#x27;</span> + <span class="variable language_">this</span>.<span class="property">color</span>.<span class="property">desc</span>)</span><br><span class="line">        trafficLight.<span class="title function_">setState</span>(<span class="variable language_">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 交通灯类 </span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TrafficLight</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">state</span> = <span class="literal">null</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 获取交通灯状态 </span></span><br><span class="line">    <span class="title function_">getState</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">state</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 设置交通灯状态 </span></span><br><span class="line">    <span class="title function_">setState</span>(<span class="params">state</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">state</span> = state</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> trafficLight = <span class="keyword">new</span> <span class="title class_">TrafficLight</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> redState = <span class="keyword">new</span> <span class="title class_">State</span>(<span class="string">&#x27;红色&#x27;</span>, <span class="string">&#x27;行人等待 &amp; 车辆等待&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> greenState = <span class="keyword">new</span> <span class="title class_">State</span>(<span class="string">&#x27;绿色&#x27;</span>, <span class="string">&#x27;行人等待 &amp; 车辆通行&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> yellowState = <span class="keyword">new</span> <span class="title class_">State</span>(<span class="string">&#x27;黄色&#x27;</span>, <span class="string">&#x27;行人等待 &amp; 车辆等待&#x27;</span>)</span><br><span class="line"></span><br><span class="line">redState.<span class="title function_">employ</span>(trafficLight)    <span class="comment">// 输出： 交通灯颜色变为 红色，行人通行 &amp; 车辆等待</span></span><br><span class="line">yellowState.<span class="title function_">employ</span>(trafficLight) <span class="comment">// 输出： 交通灯颜色变为 黄色，行人等待 &amp; 车辆等待</span></span><br><span class="line">greenState.<span class="title function_">employ</span>(trafficLight)  <span class="comment">// 输出： 交通灯颜色变为 绿色，行人等待 &amp; 车辆通行</span></span><br></pre></td></tr></table></figure>
+
+<p>如果要新建状态，不用修改原有代码，只要加上下面的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> blueState = <span class="keyword">new</span> <span class="title class_">State</span>(<span class="string">&#x27;蓝色&#x27;</span>, <span class="string">&#x27;行人倒立 &amp; 车辆飞起&#x27;</span>)</span><br><span class="line">blueState.<span class="title function_">employ</span>(trafficLight)    <span class="comment">// 输出： 交通灯颜色变为 蓝色，行人倒立 &amp; 车辆飞起</span></span><br></pre></td></tr></table></figure>
+
+<p>传统的状态区分一般是基于状态类扩展的不同状态类，如何实现实现看需求具体了，比如逻辑比较复杂，通过新建状态实例的方法已经不能满足需求，那么可以使用状态类的方式。</p>
+<p>最后，提供一个状态类的实现，同时引入状态的切换逻辑：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 抽象状态类 </span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AbstractState</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">new</span>.<span class="property">target</span> === <span class="title class_">AbstractState</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;抽象类不能直接实例化!&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 抽象方法 </span></span><br><span class="line">    <span class="title function_">employ</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;抽象方法不能调用!&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="title function_">changeState</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;抽象方法不能调用!&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 交通灯类-红灯 </span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">RedState</span> <span class="keyword">extends</span> <span class="title class_ inherited__">AbstractState</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>()</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">colorState</span> = <span class="string">&#x27;红色&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 覆盖抽象方法 </span></span><br><span class="line">    <span class="title function_">employ</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;交通灯颜色变为 &#x27;</span> + <span class="variable language_">this</span>.<span class="property">colorState</span> + <span class="string">&#x27;，行人通行 &amp; 车辆等待&#x27;</span>)</span><br><span class="line">        <span class="comment">// const redDom = document.getElementById(&#x27;color-red&#x27;)    // 业务相关操作</span></span><br><span class="line">        <span class="comment">// redDom.click()</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="title function_">changeState</span>(<span class="params">trafficLight</span>) &#123;</span><br><span class="line">        trafficLight.<span class="title function_">setState</span>(trafficLight.<span class="property">yellowState</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 交通灯类-绿灯 </span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">GreenState</span> <span class="keyword">extends</span> <span class="title class_ inherited__">AbstractState</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>()</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">colorState</span> = <span class="string">&#x27;绿色&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 覆盖抽象方法 </span></span><br><span class="line">    <span class="title function_">employ</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;交通灯颜色变为 &#x27;</span> + <span class="variable language_">this</span>.<span class="property">colorState</span> + <span class="string">&#x27;，行人等待 &amp; 车辆通行&#x27;</span>)</span><br><span class="line">        <span class="comment">// const greenDom = document.getElementById(&#x27;color-green&#x27;)</span></span><br><span class="line">        <span class="comment">// greenDom.click()</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="title function_">changeState</span>(<span class="params">trafficLight</span>) &#123;</span><br><span class="line">        trafficLight.<span class="title function_">setState</span>(trafficLight.<span class="property">redState</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 交通灯类-黄灯</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">YellowState</span> <span class="keyword">extends</span> <span class="title class_ inherited__">AbstractState</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>()</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">colorState</span> = <span class="string">&#x27;黄色&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 覆盖抽象方法 </span></span><br><span class="line">    <span class="title function_">employ</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;交通灯颜色变为 &#x27;</span> + <span class="variable language_">this</span>.<span class="property">colorState</span> + <span class="string">&#x27;，行人等待 &amp; 车辆等待&#x27;</span>)</span><br><span class="line">        <span class="comment">// const yellowDom = document.getElementById(&#x27;color-yellow&#x27;)</span></span><br><span class="line">        <span class="comment">// yellowDom.click()</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="title function_">changeState</span>(<span class="params">trafficLight</span>) &#123;</span><br><span class="line">        trafficLight.<span class="title function_">setState</span>(trafficLight.<span class="property">greenState</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 交通灯类 </span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TrafficLight</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">redState</span> = <span class="keyword">new</span> <span class="title class_">RedState</span>()</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">greenState</span> = <span class="keyword">new</span> <span class="title class_">GreenState</span>()</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">yellowState</span> = <span class="keyword">new</span> <span class="title class_">YellowState</span>()</span><br><span class="line">        </span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">state</span> = <span class="variable language_">this</span>.<span class="property">greenState</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 设置交通灯状态 </span></span><br><span class="line">    <span class="title function_">setState</span>(<span class="params">state</span>) &#123;</span><br><span class="line">        state.<span class="title function_">employ</span>(<span class="variable language_">this</span>)</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">state</span> = state</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="title function_">changeState</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">state</span>.<span class="title function_">changeState</span>(<span class="variable language_">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> trafficLight = <span class="keyword">new</span> <span class="title class_">TrafficLight</span>()</span><br><span class="line">trafficLight.<span class="title function_">changeState</span>()    <span class="comment">// 输出： 交通灯颜色变为 红色，行人通行 &amp; 车辆等待</span></span><br><span class="line">trafficLight.<span class="title function_">changeState</span>()    <span class="comment">// 输出： 交通灯颜色变为 黄色，行人等待 &amp; 车辆等待</span></span><br><span class="line">trafficLight.<span class="title function_">changeState</span>()    <span class="comment">// 输出： 交通灯颜色变为 绿色，行人等待 &amp; 车辆通行</span></span><br></pre></td></tr></table></figure>
+
+<p>如果要增加新的交通灯颜色，也是很方便的：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 交通灯类-蓝灯 </span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">BlueState</span> <span class="keyword">extends</span> <span class="title class_ inherited__">AbstractState</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">super</span>()</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">colorState</span> = <span class="string">&#x27;蓝色&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 覆盖抽象方法 </span></span><br><span class="line">    <span class="title function_">employ</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;交通灯颜色变为 &#x27;</span> + <span class="variable language_">this</span>.<span class="property">colorState</span> + <span class="string">&#x27;，行人倒立 &amp; 车辆飞起&#x27;</span>)</span><br><span class="line">        <span class="keyword">const</span> redDom = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;color-blue&#x27;</span>)</span><br><span class="line">        redDom.<span class="title function_">click</span>()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> blueState = <span class="keyword">new</span> <span class="title class_">BlueState</span>()</span><br><span class="line">trafficLight.<span class="title function_">employ</span>(blueState)    <span class="comment">// 输出： 交通灯颜色变为 蓝色，行人倒立 &amp; 车辆飞起</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="三-状态管理的原理"><a href="#三-状态管理的原理" class="headerlink" title="三. 状态管理的原理"></a>三. 状态管理的原理</h2><p>所谓对象的状态，通常指的就是对象实例的属性的值。行为指的就是对象的功能，行为大多可以对应到方法上。状态模式把状态和状态对应的行为从原来的大杂烩代码中分离出来，把每个状态所对应的功能处理封装起来，这样选择不同状态的时候，其实就是在选择不同的状态处理类。</p>
+<p>也就是说，状态和行为是相关联的，它们的关系可以描述总结成：状态决定行为。由于状态是在运行期被改变的，因此行为也会在运行期根据状态的改变而改变，看起来，同一个对象，在不同的运行时刻，行为是不一样的，就像是类被修改了一样。</p>
+<p>为了提取不同的状态类共同的外观，可以给状态类定义一个共同的状态接口或抽象类，正如之前最后的两个代码示例一样，这样可以面向统一的接口编程，无须关心具体的状态类实现。</p>
+<h2 id="四-状态模式的优缺点"><a href="#四-状态模式的优缺点" class="headerlink" title="四. 状态模式的优缺点"></a>四. 状态模式的优缺点</h2><p>状态模式的优点：<br><strong>结构相比之下清晰</strong>，避免了过多的 switch-case 或 if-else 语句的使用，避免了程序的复杂性提高系统的可维护性;<br><strong>符合开闭原则</strong>，每个状态都是一个子类，增加状态只需增加新的状态类即可，修改状态也只需修改对应状态类就可以了；<br><strong>封装性良好</strong>，状态的切换在类的内部实现，外部的调用无需知道类内部如何实现状态和行为的变换。<br>状态模式的缺点：引入了多余的类，每个状态都有对应的类，导致系统中类的个数增加。</p>
+<h2 id="五-状态模式的应用场景"><a href="#五-状态模式的应用场景" class="headerlink" title="五. 状态模式的应用场景"></a>五. 状态模式的应用场景</h2><p>在以下场景中可以使用状态模式：</p>
+<ul>
+<li>操作中含有庞大的多分支的条件语句，且这些分支依赖于该对象的状态，那么可以使用状态模式来将分支的处理分散到单独的状态类中；</li>
+<li>对象的行为随着状态的改变而改变，那么可以考虑状态模式，来把状态和行为分离，虽然分离了，但是状态和行为是对应的，再通过改变状态调用状态对应的行为；</li>
+</ul>
+<h2 id="六-状态模式与其他模式的区别"><a href="#六-状态模式与其他模式的区别" class="headerlink" title="六. 状态模式与其他模式的区别"></a>六. 状态模式与其他模式的区别</h2><p><strong>（1）状态模式和策略模式</strong><br>状态模式和策略模式在之前的代码就可以看出来，看起来比较类似，他们的区别：</p>
+<ul>
+<li>状态模式： 重在强调对象内部状态的变化改变对象的行为，状态类之间是平行的，无法相互替换；</li>
+<li>策略模式： 策略的选择由外部条件决定，策略可以动态的切换，策略之间是平等的，可以相互替换；</li>
+</ul>
+<p>状态模式的状态类是平行的，意思是各个状态类封装的状态和对应的行为是相互独立、没有关联的，封装的业务逻辑可能差别很大毫无关联，相互之间不可替换。但是策略模式中的策略是平等的，是同一行为的不同描述或者实现，在同一个行为发生的时候，可以根据外部条件挑选任意一个实现来进行处理。</p>
+<p><strong>（2）状态模式和发布-订阅模式</strong><br>这两个模式都是在状态发生改变的时候触发行为，不过发布-订阅模式的行为是固定的，那就是通知所有的订阅者，而状态模式是根据状态来选择不同的处理逻辑。</p>
+<ul>
+<li>状态模式： 根据状态来分离行为，当状态发生改变的时候，动态地改变行为；</li>
+<li>发布-订阅模式： 发布者在消息发生时通知订阅者，具体如何处理则不在乎，或者直接丢给用户自己处理；<br>这两个模式是可以组合使用的，比如在发布-订阅模式的发布消息部分，当对象的状态发生了改变，触发通知了所有的订阅者后，可以引入状态模式，根据通知过来的状态选择相应的处理。</li>
+</ul>
+
+        </div>
+        <div class="top-div">
+          <ol class="top-box"><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%B8%80-%E4%BB%80%E4%B9%88%E6%98%AF%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%EF%BC%9F"><span class="top-box-text">一. 什么是状态模式？</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%BA%8C-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="top-box-text">二. 状态模式的实现</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%B8%89-%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E7%9A%84%E5%8E%9F%E7%90%86"><span class="top-box-text">三. 状态管理的原理</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E5%9B%9B-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="top-box-text">四. 状态模式的优缺点</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%BA%94-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="top-box-text">五. 状态模式的应用场景</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E5%85%AD-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E4%B8%8E%E5%85%B6%E4%BB%96%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="top-box-text">六. 状态模式与其他模式的区别</span></a></li></ol>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="next-post">
+        <a class="purple-link" href="/2023/03/21/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-gong-han-mo-shi/">
+          <h3 class="post-title">
+            下一篇：前端设计模式-工厂模式
+          </h3>
+        </a>
+      </div>
+    
+  </div>
+
+
+
+
+<footer>
+<div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/ghlyibu" target="_blank">
+          <i class="icon icon-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> <a href="https://github.com/f-dong/hexo-theme-minimalism" target="_blank">Theme</a>
+  
+  
+  
+    
+     |
+    
+      <a class="icp" href="https://beian.miit.gov.cn/" target="_blank">蜀ICP备2020031778号</a>
+  
+  
+</div>
+</footer>
+
+
+      </div>
+      
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.fancybox.min.js"></script>
+
+
+<script id="hexo-configurations">
+    window.theme_config = {"image":{"lazyload_enable":false}};
+    window.is_post = true;
+  </script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+    </div>
+  </body>
+</html>
+
