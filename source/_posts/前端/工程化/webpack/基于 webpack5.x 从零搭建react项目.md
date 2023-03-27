@@ -308,5 +308,6 @@ module.exports = {
 }
 ```
 ## 六. 媒体文件配置
-
-## 七. eslint+prettier+husky
+### todo
+## 七. eslint+prettier+husky+jest
+### todo
