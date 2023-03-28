@@ -2,6 +2,7 @@
 title: CSS 居中布局
 date: 2023-03-17 12:24:39
 tags: css
+categories: 前端
 ---
 ## 变量
 CSS变量又名CSS自定义属性，指可在整个文档中重复使用的值。它由自定义属性--xxx和函数var(--xxx)组成，var()用于引用自定义属性。

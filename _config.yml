@@ -3,9 +3,9 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 郭海林的博客
+title: YiBu's Blog
 subtitle: ''
-description: '博客,JS,webpack,前端,Java'
+description: 'yibu,郭海林,博客,JS,webpack,前端,Java'
 keywords:
 author: yibu
 language: zh-CN
@@ -97,8 +97,8 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: hexo-theme-minimalism
-# theme: volantis
+# theme: hexo-theme-minimalism
+theme: fluid
 
 
 # Deployment

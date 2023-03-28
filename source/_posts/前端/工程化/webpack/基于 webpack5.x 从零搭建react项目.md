@@ -3,6 +3,7 @@ title: 基于 webpack5.x 从零搭建react项目
 date: 2023-03-15 08:50:50
 tags:
   - webpack
+categories: 前端
 ---
 ## 概述
 本文基于webpack5.x,pnpm包管理器 从零搭建一个 js 项目的基础开发模板

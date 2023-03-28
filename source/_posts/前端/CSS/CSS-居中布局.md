@@ -2,6 +2,7 @@
 title: CSS 居中布局
 date: 2023-03-17 09:11:08
 tags: css
+categories: 前端
 ---
 ## 一、水平居中
 ### 1. 内联元素
