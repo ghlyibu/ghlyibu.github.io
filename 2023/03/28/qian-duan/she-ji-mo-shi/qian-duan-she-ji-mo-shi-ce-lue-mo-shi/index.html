@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    
+
+<script>!function(){var e=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,t=localStorage.getItem("use-color-scheme")||"auto";("dark"===t||e&&"light"!==t)&&document.documentElement.classList.toggle("dark",!0)}()</script>
+
+<meta charset="utf-8" >
+
+<title>前端设计模式-策略模式</title>
+<meta name="keywords" content="前端设计模式-策略模式, 郭海林的博客">
+<meta name="description" content="一. 什么是策略模式？策略模式 （Strategy Pattern）又称政策模式，其定义一系列的算法，把它们一个个封装起来，并且使它们可以互相替换。封装的策略算法一般是独立的，策略模式根据输入来调整采用哪个算法。关键是策略的实现和使用分离。">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" href="/style/main.css">
+
+
+<link rel="stylesheet" href="/style/jquery.fancybox.min.css">
+
+
+
+
+
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+  <body>
+    <div id="app" class="main">
+
+<div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="http://www.guohailin.com">
+        <img class="avatar" src="/images/avatar.png" alt="logo" width="32px" height="32px">
+      </a>
+      <a href="http://www.guohailin.com">
+        <h1 class="site-title">郭海林的博客</h1>
+      </a>
+    </div>
+    <div class="right">
+        <i class="icon menu-switch icon-menu-outline" ></i>
+    </div>
+  </div>
+</div>
+
+<div class="menu-container" style="height: 0;opacity: 0;">
+<nav class="menu-list">
+  
+    
+      <a href="/" class="menu purple-link">
+        首页
+      </a>
+    
+  
+    
+      <a href="/tags" class="menu purple-link">
+        标签
+      </a>
+    
+  
+    
+      <a href="/archives" class="menu purple-link">
+        归档
+      </a>
+    
+  
+    
+      <a href="/about" class="menu purple-link">
+        关于
+      </a>
+    
+  
+</nav>
+</div>
+
+
+
+  <div class="content-container">
+    <div class="post-detail">
+      
+      <h2 class="post-title">前端设计模式-策略模式</h2>
+      <div class="post-info post-detail-info">
+        <span><i class="icon icon-calendar-outline"></i> 2023-03-28</span>
+        
+          <span>
+          <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+              设计模式
+                
+              </a>
+            
+          </span>
+        
+      </div>
+      <div class="post-content-wrapper">
+        <div class="post-content">
+          <h2 id="一-什么是策略模式？"><a href="#一-什么是策略模式？" class="headerlink" title="一. 什么是策略模式？"></a>一. 什么是策略模式？</h2><p>策略模式 （Strategy Pattern）又称政策模式，其定义一系列的算法，把它们一个个封装起来，并且使它们可以互相替换。封装的策略算法一般是独立的，策略模式根据输入来调整采用哪个算法。关键是策略的实现和使用分离。</p>
+<p>在生活中，螺丝的规格有很多，螺丝刀尺寸也不少，如果每碰到一种规格就买一个螺丝刀，那就得堆满了螺丝刀。所以现在人们都用多功能的螺丝刀套装，螺丝刀把只需要一个，碰到不同规格的螺丝只要换螺丝刀头就行了，很方便，体积也变小很多。</p>
+<p>再举个栗子，一辆车的轮胎有很多规格，在泥泞路段开的多的时候可以用泥地胎，在雪地开得多可以用雪地胎，高速公路上开的多的时候使用高性能轮胎，针对不同使用场景更换不同的轮胎即可，不需更换整个车。</p>
+<p>这些都是策略模式的实例，螺丝刀&#x2F;车属于封装上下文，封装和使用不同的螺丝刀头&#x2F;轮胎，螺丝刀头&#x2F;轮胎这里就相当于策略，可以根据需求不同来更换不同的使用策略。</p>
+<p>在这些场景中，有以下特点：</p>
+<ol>
+<li>螺丝刀头&#x2F;轮胎（策略）之间相互独立，但又可以相互替换；</li>
+<li>螺丝刀&#x2F;车（封装上下文）可以根据需要的不同选用不同的策略；</li>
+</ol>
+<h2 id="二-策略模式的实现"><a href="#二-策略模式的实现" class="headerlink" title="二. 策略模式的实现"></a>二. 策略模式的实现</h2><p>来看一个具体的例子，某个电商网站，通过打折促销来销售库存物品，有的商品满 100 减 30，有的商品满 200 减 80，有的商品直接 8 折出售，这样的逻辑该去实现呢。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">priceCalculate</span>(<span class="params">discountType, price</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (discountType === <span class="string">&#x27;minus100_30&#x27;</span>) &#123;   		<span class="comment">// 满100减30</span></span><br><span class="line">        <span class="keyword">return</span> price - <span class="title class_">Math</span>.<span class="title function_">floor</span>(price / <span class="number">100</span>) * <span class="number">30</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (discountType === <span class="string">&#x27;minus200_80&#x27;</span>) &#123;  <span class="comment">// 满200减80</span></span><br><span class="line">        <span class="keyword">return</span> price - <span class="title class_">Math</span>.<span class="title function_">floor</span>(price / <span class="number">200</span>) * <span class="number">80</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (discountType === <span class="string">&#x27;percent80&#x27;</span>) &#123;    <span class="comment">// 8折</span></span><br><span class="line">        <span class="keyword">return</span> price * <span class="number">0.8</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">priceCalculate</span>(<span class="string">&#x27;minus100_30&#x27;</span>, <span class="number">270</span>)    <span class="comment">// 输出: 210</span></span><br><span class="line"><span class="title function_">priceCalculate</span>(<span class="string">&#x27;percent80&#x27;</span>, <span class="number">250</span>)      <span class="comment">// 输出: 200</span></span><br></pre></td></tr></table></figure>
+
+<p>通过判断输入的折扣类型来计算商品总价的方式，几个 if-else 就满足了需求，但是这样的做法的缺点也很明显：</p>
+<ol>
+<li>priceCalculate 函数随着折扣类型的增多，if-else 判断语句会变得越来越臃肿；</li>
+<li>如果增加了新的折扣类型或者折扣类型的算法有所改变，那么需要更改 priceCalculate 函数的实现，这是违反开放-封闭原则的；</li>
+<li>可复用性差，如果在其他的地方也有类似这样的算法，但规则不一样，上述代码不能复用；</li>
+</ol>
+<p>下面来改造一下，将计算折扣的算法部分提取出来保存为一个对象，折扣的类型作为 key，这样索引的时候通过对象的键值索引调用具体的算法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">DiscountMap</span> = &#123;</span><br><span class="line">    <span class="attr">minus100_30</span>: <span class="keyword">function</span>(<span class="params">price</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> price - <span class="title class_">Math</span>.<span class="title function_">floor</span>(price / <span class="number">100</span>) * <span class="number">30</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">minus200_80</span>: <span class="keyword">function</span>(<span class="params">price</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> price - <span class="title class_">Math</span>.<span class="title function_">floor</span>(price / <span class="number">200</span>) * <span class="number">80</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">percent80</span>: <span class="keyword">function</span>(<span class="params">price</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> price * <span class="number">0.8</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 计算总售价</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">priceCalculate</span>(<span class="params">discountType, price</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">DiscountMap</span>[discountType] &amp;&amp; <span class="title class_">DiscountMap</span>[discountType](price)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">priceCalculate</span>(<span class="string">&#x27;minus100_30&#x27;</span>, <span class="number">270</span>)</span><br><span class="line"><span class="title function_">priceCalculate</span>(<span class="string">&#x27;percent80&#x27;</span>, <span class="number">250</span>)</span><br><span class="line"><span class="comment">// 输出: 210</span></span><br><span class="line"><span class="comment">// 输出: 200</span></span><br></pre></td></tr></table></figure>
+<p>这样算法的实现和算法的使用就被分开了，想添加新的算法也变得十分简单：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">DiscountMap</span>.<span class="property">minus150_40</span> = <span class="keyword">function</span>(<span class="params">price</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> price - <span class="title class_">Math</span>.<span class="title function_">floor</span>(price / <span class="number">150</span>) * <span class="number">40</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果希望计算算法隐藏起来，那么可以借助 IIFE 使用闭包的方式，这时需要添加增加策略的入口，以方便扩展：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">PriceCalculate</span> = (<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">/* 售价计算方式 */</span></span><br><span class="line">    <span class="keyword">const</span> <span class="title class_">DiscountMap</span> = &#123;</span><br><span class="line">        <span class="attr">minus100_30</span>: <span class="keyword">function</span>(<span class="params">price</span>) &#123;      <span class="comment">// 满100减30</span></span><br><span class="line">            <span class="keyword">return</span> price - <span class="title class_">Math</span>.<span class="title function_">floor</span>(price / <span class="number">100</span>) * <span class="number">30</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">minus200_80</span>: <span class="keyword">function</span>(<span class="params">price</span>) &#123;      <span class="comment">// 满200减80</span></span><br><span class="line">            <span class="keyword">return</span> price - <span class="title class_">Math</span>.<span class="title function_">floor</span>(price / <span class="number">200</span>) * <span class="number">80</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">percent80</span>: <span class="keyword">function</span>(<span class="params">price</span>) &#123;        <span class="comment">// 8折</span></span><br><span class="line">            <span class="keyword">return</span> price * <span class="number">0.8</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">priceClac</span>: <span class="keyword">function</span>(<span class="params">discountType, price</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="title class_">DiscountMap</span>[discountType] &amp;&amp; <span class="title class_">DiscountMap</span>[discountType](price)</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">addStrategy</span>: <span class="keyword">function</span>(<span class="params">discountType, fn</span>) &#123;		<span class="comment">// 注册新计算方式</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="title class_">DiscountMap</span>[discountType]) <span class="keyword">return</span></span><br><span class="line">            <span class="title class_">DiscountMap</span>[discountType] = fn</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)()</span><br><span class="line"><span class="title class_">PriceCalculate</span>.<span class="title function_">priceClac</span>(<span class="string">&#x27;minus100_30&#x27;</span>, <span class="number">270</span>)	<span class="comment">// 输出: 210</span></span><br><span class="line"><span class="title class_">PriceCalculate</span>.<span class="title function_">addStrategy</span>(<span class="string">&#x27;minus150_40&#x27;</span>, <span class="keyword">function</span>(<span class="params">price</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> price - <span class="title class_">Math</span>.<span class="title function_">floor</span>(price / <span class="number">150</span>) * <span class="number">40</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="title class_">PriceCalculate</span>.<span class="title function_">priceClac</span>(<span class="string">&#x27;minus150_40&#x27;</span>, <span class="number">270</span>)	<span class="comment">// 输出: 230</span></span><br></pre></td></tr></table></figure>
+<p>这样算法就被隐藏起来，并且预留了增加策略的入口，便于扩展。</p>
+<p>下面就来实现一个通用的策略模式，可以根据上面的例子提炼一下策略模式，折扣计算方式可以被认为是策略（Strategy），这些策略之间可以相互替代，而具体折扣的计算过程可以被认为是封装上下文（Context），封装上下文可以根据需要选择不同的策略。</p>
+<p>策略模式中主要有下面概念：</p>
+<ol>
+<li>Context ：封装上下文，根据需要调用需要的策略，屏蔽外界对策略的直接调用，只对外提供一个接口，根据需要调用对应的策略；</li>
+<li>Strategy ：策略，含有具体的算法，其方法的外观相同，因此可以互相代替；</li>
+<li>StrategyMap ：所有策略的合集，供封装上下文调用；</li>
+</ol>
+<h2 id="三-策略模式的实际应用"><a href="#三-策略模式的实际应用" class="headerlink" title="三. 策略模式的实际应用"></a>三. 策略模式的实际应用</h2><ol>
+<li>表格 formatter<br>Element UI 的表格控件的 Column 接受一个 formatter 参数，用来格式化内容，其类型为函数，并且还可以接受几个特定参数，像这样： Function(row, column, cellValue, index)。</li>
+</ol>
+<p>以文件大小转化为例，后端经常会直接传 bit 单位的文件大小，那么前端需要根据后端的数据，根据需求转化为自己需要的单位的文件大小，比如 KB&#x2F;MB。<br>首先实现文件计算的算法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title class_">StrategyMap</span> = &#123;</span><br><span class="line">    <span class="comment">// Strategy 1: 将文件大小（bit）转化为 KB </span></span><br><span class="line">    <span class="attr">bitToKB</span>: <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> num = <span class="title class_">Number</span>(val)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">isNaN</span>(num) ? val : (num / <span class="number">1024</span>).<span class="title function_">toFixed</span>(<span class="number">0</span>) + <span class="string">&#x27;KB&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// Strategy 2: 将文件大小（bit）转化为 MB </span></span><br><span class="line">    <span class="attr">bitToMB</span>: <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> num = <span class="title class_">Number</span>(val)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">isNaN</span>(num) ? val : (num / <span class="number">1024</span> / <span class="number">1024</span>).<span class="title function_">toFixed</span>(<span class="number">1</span>) + <span class="string">&#x27;MB&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Context: 生成el表单 formatter </span></span><br><span class="line"><span class="keyword">const</span> strategyContext = <span class="keyword">function</span>(<span class="params">type, rowKey</span>)&#123; </span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params">row, column, cellValue, index</span>)&#123;</span><br><span class="line">  	<span class="title class_">StrategyMap</span>[type](row[rowKey])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> strategyContext</span><br></pre></td></tr></table></figure>
+<p>那么在组件中可以直接使用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">el-table</span> <span class="attr">:data</span>=<span class="string">&quot;tableData&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">el-table-column</span> <span class="attr">prop</span>=<span class="string">&quot;date&quot;</span> <span class="attr">label</span>=<span class="string">&quot;日期&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">el-table-column</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">el-table-column</span> <span class="attr">prop</span>=<span class="string">&quot;name&quot;</span> <span class="attr">label</span>=<span class="string">&quot;文件名&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">el-table-column</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="comment">&lt;!-- 直接调用 strategyContext --&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">el-table-column</span> <span class="attr">prop</span>=<span class="string">&quot;sizeKb&quot;</span> <span class="attr">label</span>=<span class="string">&quot;文件大小(KB)&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                         <span class="attr">:formatter</span>=<span class="string">&#x27;strategyContext(&quot;bitToKB&quot;, &quot;sizeKb&quot;)&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">el-table-column</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">el-table-column</span> <span class="attr">prop</span>=<span class="string">&quot;sizeMb&quot;</span> <span class="attr">label</span>=<span class="string">&quot;附件大小(MB)&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                         <span class="attr">:formatter</span>=<span class="string">&#x27;strategyContext(&quot;bitToMB&quot;, &quot;sizeMb&quot;)&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">el-table-column</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">el-table</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&#x27;text/javascript&#x27;</span>&gt;</span><span class="language-javascript"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="keyword">import</span> strategyContext <span class="keyword">from</span> <span class="string">&#x27;./strategyContext.js&#x27;</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    </span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="attr">name</span>: <span class="string">&#x27;ElTableDemo&#x27;</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="title function_">data</span>(<span class="params"></span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            <span class="keyword">return</span> &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                strategyContext,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                <span class="attr">tableData</span>: [</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                    &#123; <span class="attr">date</span>: <span class="string">&#x27;2019-05-02&#x27;</span>, <span class="attr">name</span>: <span class="string">&#x27;文件1&#x27;</span>, <span class="attr">sizeKb</span>: <span class="number">1234</span>, <span class="attr">sizeMb</span>: <span class="number">1234426</span> &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                    &#123; <span class="attr">date</span>: <span class="string">&#x27;2019-05-04&#x27;</span>, <span class="attr">name</span>: <span class="string">&#x27;文件2&#x27;</span>, <span class="attr">sizeKb</span>: <span class="number">4213</span>, <span class="attr">sizeMb</span>: <span class="number">8636152</span> &#125;]</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            &#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        &#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    &#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">style</span> <span class="attr">scoped</span>&gt;</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>表单验证<br>除了表格中的 formatter 之外，策略模式也经常用在表单验证的场景。Element UI 的 Form 表单 具有表单验证功能，用来校验用户输入的表单内容。实际需求中表单验证项一般会比较复杂，所以需要给每个表单项增加 validator 自定义校验方法。</li>
+</ol>
+<p>可以像官网示例一样把表单验证都写在组件的状态 data 函数中，但是这样就不好复用使用频率比较高的表单验证方法了，这时可以结合策略模式和函数柯里化的知识来重构一下。首先在项目的工具模块（一般是 utils 文件夹）实现通用的表单验证方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/utils/validates.js</span></span><br><span class="line"><span class="comment">// 姓名校验 由2-10位汉字组成 </span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">validateUsername</span>(<span class="params">str</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> reg = <span class="regexp">/^[\u4e00-\u9fa5]&#123;2,10&#125;$/</span></span><br><span class="line">    <span class="keyword">return</span> reg.<span class="title function_">test</span>(str)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 手机号校验 由以1开头的11位数字组成  </span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">validateMobile</span>(<span class="params">str</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> reg = <span class="regexp">/^1\d&#123;10&#125;$/</span></span><br><span class="line">    <span class="keyword">return</span> reg.<span class="title function_">test</span>(str)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 邮箱校验 </span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">validateEmail</span>(<span class="params">str</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> reg = <span class="regexp">/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/</span></span><br><span class="line">    <span class="keyword">return</span> reg.<span class="title function_">test</span>(str)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在 utils&#x2F;index.js 中增加一个柯里化方法，用来生成表单验证函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/utils/index.js</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">Validates</span> <span class="keyword">from</span> <span class="string">&#x27;./validates.js&#x27;</span></span><br><span class="line"><span class="comment">// 生成表格自定义校验函数 </span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">formValidateGene</span> = (<span class="params">key, msg</span>) =&gt; <span class="function">(<span class="params">rule, value, cb</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title class_">Validates</span>[key](value)) &#123;</span><br><span class="line">        <span class="title function_">cb</span>()</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="title function_">cb</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(msg))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的 formValidateGene 函数接受两个参数，第一个是验证规则，也就是 src&#x2F;utils&#x2F;validates.js 文件中提取出来的通用验证规则的方法名，第二个参数是报错的话表单验证的提示信息。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">el-form</span> <span class="attr">ref</span>=<span class="string">&quot;ruleForm&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">             <span class="attr">label-width</span>=<span class="string">&quot;100px&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">             <span class="attr">class</span>=<span class="string">&quot;demo-ruleForm&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">             <span class="attr">:rules</span>=<span class="string">&quot;rules&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">             <span class="attr">:model</span>=<span class="string">&quot;ruleForm&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        </span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">el-form-item</span> <span class="attr">label</span>=<span class="string">&quot;用户名&quot;</span> <span class="attr">prop</span>=<span class="string">&quot;username&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">el-input</span> <span class="attr">v-model</span>=<span class="string">&quot;ruleForm.username&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">el-input</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">el-form-item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        </span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">el-form-item</span> <span class="attr">label</span>=<span class="string">&quot;手机号&quot;</span> <span class="attr">prop</span>=<span class="string">&quot;mobile&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">el-input</span> <span class="attr">v-model</span>=<span class="string">&quot;ruleForm.mobile&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">el-input</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">el-form-item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        </span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">el-form-item</span> <span class="attr">label</span>=<span class="string">&quot;邮箱&quot;</span> <span class="attr">prop</span>=<span class="string">&quot;email&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">el-input</span> <span class="attr">v-model</span>=<span class="string">&quot;ruleForm.email&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">el-input</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">el-form-item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">el-form</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&#x27;text/javascript&#x27;</span>&gt;</span><span class="language-javascript"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">Utils</span> <span class="keyword">from</span> <span class="string">&#x27;../utils&#x27;</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    </span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="attr">name</span>: <span class="string">&#x27;ElTableDemo&#x27;</span>,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        <span class="title function_">data</span>(<span class="params"></span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            <span class="keyword">return</span> &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                <span class="attr">ruleForm</span>: &#123; <span class="attr">pass</span>: <span class="string">&#x27;&#x27;</span>, <span class="attr">checkPass</span>: <span class="string">&#x27;&#x27;</span>, <span class="attr">age</span>: <span class="string">&#x27;&#x27;</span> &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                <span class="attr">rules</span>: &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                    <span class="attr">username</span>: [&#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                        <span class="attr">validator</span>: <span class="title class_">Utils</span>.<span class="title function_">formValidateGene</span>(<span class="string">&#x27;validateUsername&#x27;</span>, <span class="string">&#x27;姓名由2-10位汉字组成&#x27;</span>),</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                        <span class="attr">trigger</span>: <span class="string">&#x27;blur&#x27;</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                    &#125;],</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                    <span class="attr">mobile</span>: [&#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                        <span class="attr">validator</span>: <span class="title class_">Utils</span>.<span class="title function_">formValidateGene</span>(<span class="string">&#x27;validateMobile&#x27;</span>, <span class="string">&#x27;手机号由以1开头的11位数字组成&#x27;</span>),</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                        <span class="attr">trigger</span>: <span class="string">&#x27;blur&#x27;</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                    &#125;],</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                    <span class="attr">email</span>: [&#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                        <span class="attr">validator</span>: <span class="title class_">Utils</span>.<span class="title function_">formValidateGene</span>(<span class="string">&#x27;validateEmail&#x27;</span>, <span class="string">&#x27;不是正确的邮箱格式&#x27;</span>),</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                        <span class="attr">trigger</span>: <span class="string">&#x27;blur&#x27;</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                    &#125;]</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">                &#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">            &#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">        &#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    &#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>可以看见在使用的时候非常方便，把表单验证方法提取出来作为策略，使用柯里化方法动态选择表单验证方法，从而对策略灵活运用，大大加快开发效率。</p>
+<h2 id="四-策略模式的优缺点"><a href="#四-策略模式的优缺点" class="headerlink" title="四. 策略模式的优缺点"></a>四. 策略模式的优缺点</h2><p>策略模式将算法的<strong>实现和使用拆分</strong>，这个特点带来了很多<strong>优点</strong>：</p>
+<ol>
+<li>策略之间相互独立，但<strong>策略可以自由切换</strong>，这个策略模式的特点给策略模式带来很多灵活性，也提高了策略的复用率；</li>
+<li>如果不采用策略模式，那么在选策略时一般会采用多重的条件判断，采用策略模式可以<strong>避免多重条件判断</strong>，增加可维护性；</li>
+<li><strong>可扩展性好</strong>，策略可以很方便的进行扩展；</li>
+</ol>
+<p>策略模式的<strong>缺点</strong>：</p>
+<ol>
+<li>策略相互独立，因此一些复杂的算法逻辑无法共享，造成一些资源浪费；</li>
+<li>如果用户想采用什么策略，必须了解策略的实现，因此所有策略都需向外暴露，这是违背迪米特法则&#x2F;最少知识原则的，也增加了用户对策略对象的使用成本。</li>
+</ol>
+<h2 id="五-策略模式的适用场景"><a href="#五-策略模式的适用场景" class="headerlink" title="五. 策略模式的适用场景"></a>五. 策略模式的适用场景</h2><p>策略模式的使用场景如下：</p>
+<ol>
+<li>多个算法<strong>只在行为上稍有不同</strong>的场景，这时可以使用策略模式来动态选择算法；</li>
+<li>算法需要<strong>自由切换</strong>的场景；</li>
+<li>有时<strong>需要多重条件判断</strong>，那么可以使用策略模式来规避多重条件判断的情况；</li>
+</ol>
+<h2 id="六-策略模式与其他模式的区别"><a href="#六-策略模式与其他模式的区别" class="headerlink" title="六. 策略模式与其他模式的区别"></a>六. 策略模式与其他模式的区别</h2><ol>
+<li>状态模式和策略模式<br>状态模式和策略模式在之前的代码就可以看出来，看起来比较类似，他们的区别：</li>
+</ol>
+<ul>
+<li>状态模式： 重在强调对象内部状态的变化改变对象的行为，状态类之间是平行的，无法相互替换；</li>
+<li>策略模式： 策略的选择由外部条件决定，策略可以动态的切换，策略之间是平等的，可以相互替换；<br>状态模式的状态类是平行的，意思是各个状态类封装的状态和对应的行为是相互独立、没有关联的，封装的业务逻辑可能差别很大毫无关联，相互之间不可替换。但是策略模式中的策略是平等的，是同一行为的不同描述或者实现，在同一个行为发生的时候，可以根据外部条件挑选任意一个实现来进行处理。</li>
+</ul>
+<ol start="2">
+<li>策略模式和模板方法模式<br>策略模式和模板方法模式的作用比较类似，但是结构和实现方式有点不一样。</li>
+</ol>
+<ul>
+<li>策略模式 让我们在程序运行的时候动态地指定要使用的算法；</li>
+<li>模板方法模式 是在子类定义的时候就已经确定了使用的算法；</li>
+</ul>
+
+        </div>
+        <div class="top-div">
+          <ol class="top-box"><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%B8%80-%E4%BB%80%E4%B9%88%E6%98%AF%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%EF%BC%9F"><span class="top-box-text">一. 什么是策略模式？</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%BA%8C-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="top-box-text">二. 策略模式的实现</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%B8%89-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8"><span class="top-box-text">三. 策略模式的实际应用</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E5%9B%9B-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="top-box-text">四. 策略模式的优缺点</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%BA%94-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E7%9A%84%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="top-box-text">五. 策略模式的适用场景</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E5%85%AD-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E4%B8%8E%E5%85%B6%E4%BB%96%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="top-box-text">六. 策略模式与其他模式的区别</span></a></li></ol>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="next-post">
+        <a class="purple-link" href="/2023/03/24/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-zhuang-tai-mo-shi/">
+          <h3 class="post-title">
+            下一篇：前端设计模式-状态模式
+          </h3>
+        </a>
+      </div>
+    
+  </div>
+
+
+
+
+<footer>
+<div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/ghlyibu" target="_blank">
+          <i class="icon icon-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> <a href="https://github.com/f-dong/hexo-theme-minimalism" target="_blank">Theme</a>
+  
+  
+  
+    
+     |
+    
+      <a class="icp" href="https://beian.miit.gov.cn/" target="_blank">蜀ICP备2020031778号</a>
+  
+  
+</div>
+</footer>
+
+
+      </div>
+      
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.fancybox.min.js"></script>
+
+
+<script id="hexo-configurations">
+    window.theme_config = {"image":{"lazyload_enable":false}};
+    window.is_post = true;
+  </script>
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+    </div>
+  </body>
+</html>
+
