@@ -1,433 +1,927 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yibu">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="yibu,郭海林,博客,JS,webpack,前端,Java">
+<meta property="og:type" content="website">
+<meta property="og:title" content="YiBu&#39;s Blog">
+<meta property="og:url" content="http://www.guohailin.com/index.html">
+<meta property="og:site_name" content="YiBu&#39;s Blog">
+<meta property="og:description" content="yibu,郭海林,博客,JS,webpack,前端,Java">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="yibu">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>YiBu&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.guohailin.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
     
 
-<script>!function(){var e=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,t=localStorage.getItem("use-color-scheme")||"auto";("dark"===t||e&&"light"!==t)&&document.documentElement.classList.toggle("dark",!0)}()</script>
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>郭海林的博客</strong>
+    </a>
 
-<meta charset="utf-8" >
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-<title>郭海林的博客</title>
-<meta name="keywords" content="郭海林的博客, 郭海林的博客">
-<meta name="description" content="博客,JS,webpack,前端,Java">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="shortcut icon" href="/favicon.ico">
-<link rel="stylesheet" href="/style/main.css">
-
-
-<link rel="stylesheet" href="/style/jquery.fancybox.min.css">
-
-
-
-
-
-
-
-  <meta name="generator" content="Hexo 6.3.0"></head>
-  <body>
-    <div id="app" class="main">
-
-<div class="site-header-container">
-  <div class="site-header">
-    <div class="left">
-      <a href="http://www.guohailin.com">
-        <img class="avatar" src="/images/avatar.png" alt="logo" width="32px" height="32px">
-      </a>
-      <a href="http://www.guohailin.com">
-        <h1 class="site-title">郭海林的博客</h1>
-      </a>
-    </div>
-    <div class="right">
-        <i class="icon menu-switch icon-menu-outline" ></i>
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
     </div>
   </div>
-</div>
-
-<div class="menu-container" style="height: 0;opacity: 0;">
-<nav class="menu-list">
-  
-    
-      <a href="/" class="menu purple-link">
-        首页
-      </a>
-    
-  
-    
-      <a href="/tags" class="menu purple-link">
-        标签
-      </a>
-    
-  
-    
-      <a href="/archives" class="menu purple-link">
-        归档
-      </a>
-    
-  
-    
-      <a href="/about" class="menu purple-link">
-        关于
-      </a>
-    
-  
 </nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
 </div>
 
+</div>
 
+  </header>
 
-  <div class="content-container">
-
+  <main>
     
-
-<section class="post-item">
-    <div class="content">
-      <a href="/2023/03/18/gong-ju/linux-chang-yong-ming-ling/">
-        <h2 class="post-title">linux-常用命令</h2>
-      </a>
-      <a href="/2023/03/18/gong-ju/linux-chang-yong-ming-ling/">
-          <div class="post-abstract">
-            
-			    Linux 命令是在命令行上运行的程序。命令行是接受文本行并将其处理成计算机指令的界面。任何图形用户界面 (GUI) 都是命令行程序的抽象。通过 GUI 进行多步骤处理的任务可以通过在 CLI 中键入命令在几秒钟内完成。因此，学习基本的命令
-            
-          </div>
-      </a>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2023-03-18</span>
-        
-          <span>
-            <i class="icon icon-pricetags-outline"></i>
-            
-              <a href="/tags/linux/">
-                linux
+      <div class="container nopadding-x-md">
+        <div id="board"
+          style="margin-top: 0">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
                 
-              </a>
-            
-          </span>
-        
-      </div>
-    </div>
-  </section>
 
 
-
-<section class="post-item">
-    <div class="content">
-      <a href="/2023/03/17/qian-duan/css/css-bian-liang/">
-        <h2 class="post-title">CSS 居中布局</h2>
-      </a>
-      <a href="/2023/03/17/qian-duan/css/css-bian-liang/">
-          <div class="post-abstract">
-            
-			    变量CSS变量又名CSS自定义属性，指可在整个文档中重复使用的值。它由自定义属性–xxx和函数var(–xxx)组成，var()用于引用自定义属性。
-示例：
-12345678910111213141516171819/* 不使用变量 */.
-            
-          </div>
-      </a>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2023-03-17</span>
-        
-          <span>
-            <i class="icon icon-pricetags-outline"></i>
-            
-              <a href="/tags/css/">
-                css
-                
-              </a>
-            
-          </span>
-        
-      </div>
-    </div>
-  </section>
-
-
-
-<section class="post-item">
-    <div class="content">
-      <a href="/2023/03/17/qian-duan/css/css-ju-zhong-bu-ju/">
-        <h2 class="post-title">CSS 居中布局</h2>
-      </a>
-      <a href="/2023/03/17/qian-duan/css/css-ju-zhong-bu-ju/">
-          <div class="post-abstract">
-            
-			    一、水平居中1. 内联元素123&lt;div class=&quot;container&quot;&gt;  &lt;span class=&quot;content&quot;&gt;水平居中&lt;/span&gt;&lt;/div
-            
-          </div>
-      </a>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2023-03-17</span>
-        
-          <span>
-            <i class="icon icon-pricetags-outline"></i>
-            
-              <a href="/tags/css/">
-                css
-                
-              </a>
-            
-          </span>
-        
-      </div>
-    </div>
-  </section>
-
-
-
-<section class="post-item">
-    <div class="content">
-      <a href="/2023/03/21/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-gong-han-mo-shi/">
-        <h2 class="post-title">前端设计模式-工厂模式</h2>
-      </a>
-      <a href="/2023/03/21/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-gong-han-mo-shi/">
-          <div class="post-abstract">
-            
-			    1. 什么是工厂模式？工厂模式就是根据不用的输入返回不同的实例，一般用来创建同一类对象，它的主要思想就是将对象的创建与对象的实现分离在创建对象时，不暴露具体的逻辑，而是将逻辑封装在函数中，那么这个函数就可以被视为一个工厂。工厂模式根据抽象程
-            
-          </div>
-      </a>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2023-03-21</span>
-        
-          <span>
-            <i class="icon icon-pricetags-outline"></i>
-            
-              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
-                设计模式
-                
-              </a>
-            
-          </span>
-        
-      </div>
-    </div>
-  </section>
-
-
-
-<section class="post-item">
-    <div class="content">
-      <a href="/2023/03/24/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-zhuang-tai-mo-shi/">
-        <h2 class="post-title">前端设计模式-状态模式</h2>
-      </a>
-      <a href="/2023/03/24/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-zhuang-tai-mo-shi/">
-          <div class="post-abstract">
-            
-			    一. 什么是状态模式？状态模式 （State Pattern）允许一个对象在其内部状态改变时改变它的行为，对象看起来似乎修改了它的类，类的行为随着它的状态改变而改变。状态模式主要解决的是当控制一个对象状态的条件表达式过于复杂时的情况。把状态
-            
-          </div>
-      </a>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2023-03-24</span>
-        
-          <span>
-            <i class="icon icon-pricetags-outline"></i>
-            
-              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
-                设计模式
-                
-              </a>
-            
-          </span>
-        
-      </div>
-    </div>
-  </section>
-
-
-
-<section class="post-item">
-    <div class="content">
-      <a href="/2023/03/28/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-ce-lue-mo-shi/">
-        <h2 class="post-title">前端设计模式-策略模式</h2>
-      </a>
-      <a href="/2023/03/28/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-ce-lue-mo-shi/">
-          <div class="post-abstract">
-            
-			    一. 什么是策略模式？策略模式 （Strategy Pattern）又称政策模式，其定义一系列的算法，把它们一个个封装起来，并且使它们可以互相替换。封装的策略算法一般是独立的，策略模式根据输入来调整采用哪个算法。关键是策略的实现和使用分离。
-            
-          </div>
-      </a>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2023-03-28</span>
-        
-          <span>
-            <i class="icon icon-pricetags-outline"></i>
-            
-              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
-                设计模式
-                
-              </a>
-            
-          </span>
-        
-      </div>
-    </div>
-  </section>
-
-
-
-<section class="post-item">
-    <div class="content">
-      <a href="/2023/03/20/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-dan-li-mo-shi/">
-        <h2 class="post-title">前端设计模式-单例模式</h2>
-      </a>
-      <a href="/2023/03/20/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-dan-li-mo-shi/">
-          <div class="post-abstract">
-            
-			    1. 什么是单例模式？单例模式应该是设计模式中最简单、最容易上手、应用场景广泛的模式。而且，在日常生活和编程中经常遇到，下面让我们来看看单例模式是什么。
-单例模式 （Singleton Pattern）又称为单体模式，保证一个类只有一个实例
-            
-          </div>
-      </a>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2023-03-20</span>
-        
-          <span>
-            <i class="icon icon-pricetags-outline"></i>
-            
-              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
-                设计模式
-                
-              </a>
-            
-          </span>
-        
-      </div>
-    </div>
-  </section>
-
-
-
-<section class="post-item">
-    <div class="content">
-      <a href="/2023/03/15/qian-duan/gong-cheng-hua/webpack/ji-yu-webpack5.x-cong-ling-da-jian-react-xiang-mu/">
-        <h2 class="post-title">基于 webpack5.x 从零搭建react项目</h2>
-      </a>
-      <a href="/2023/03/15/qian-duan/gong-cheng-hua/webpack/ji-yu-webpack5.x-cong-ling-da-jian-react-xiang-mu/">
-          <div class="post-abstract">
-            
-			    概述本文基于webpack5.x,pnpm包管理器 从零搭建一个 js 项目的基础开发模板
-一. 文件结构1234567891011├─config│      ├─ webpack.base.js // webpack 基本配置│    
-            
-          </div>
-      </a>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2023-03-15</span>
-        
-          <span>
-            <i class="icon icon-pricetags-outline"></i>
-            
-              <a href="/tags/webpack/">
-                webpack
-                
-              </a>
-            
-          </span>
-        
-      </div>
-    </div>
-  </section>
-
-
-
-<section class="post-item">
-    <div class="content">
-      <a href="/2023/03/15/qian-duan/gong-cheng-hua/webpack/xing-neng-you-hua/">
-        <h2 class="post-title">webpack 性能优化</h2>
-      </a>
-      <a href="/2023/03/15/qian-duan/gong-cheng-hua/webpack/xing-neng-you-hua/">
-          <div class="post-abstract">
-            
-			    webpack性能优化目的主要是两个方面：
-
-提升开发效率
-编译后浏览器运行效率
-
-提升开发效率一、提⾼webpack的构建速度1. 开启多进程并行编译loader，利⽤缓存来使得 rebuild 更快
-happypack （作者已不在更新
-            
-          </div>
-      </a>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2023-03-15</span>
-        
-          <span>
-            <i class="icon icon-pricetags-outline"></i>
-            
-              <a href="/tags/webpack/">
-                webpack
-                
-              </a>
-            
-          </span>
-        
-      </div>
-    </div>
-  </section>
-
-
-
-
-
-
-  </div>
-
-<footer>
-<div class="site-footer">
-  <div class="social-container">
+  <div class="row mx-auto index-card">
     
-      
-        <a href="https://github.com/ghlyibu" target="_blank">
-          <i class="icon icon-github"></i>
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/03/28/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-ce-lue-mo-shi/" target="_self">
+          前端设计模式-策略模式
         </a>
+      </h1>
+
       
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/28/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-ce-lue-mo-shi/" target="_self">
+        <div>
+          一. 什么是策略模式？策略模式 （Strategy Pattern）又称政策模式，其定义一系列的算法，把它们一个个封装起来，并且使它们可以互相替换。封装的策略算法一般是独立的，策略模式根据输入来调整采用哪个算法。关键是策略的实现和使用分离。 在生活中，螺丝的规格有很多，螺丝刀尺寸也不少，如果每碰到一种规格就买一个螺丝刀，那就得堆满了螺丝刀。所以现在人们都用多功能的螺丝刀套装，螺丝刀把只需要一个，碰
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-03-28 10:32" pubdate>
+              2023-03-28
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
     
-      
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
     
-      
-    
-      
-    
-      
-    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">#设计模式</a>
+            
+          </div>
+        
+      </div>
+    </article>
   </div>
-  
-    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> <a href="https://github.com/f-dong/hexo-theme-minimalism" target="_blank">Theme</a>
-  
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/03/24/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-zhuang-tai-mo-shi/" target="_self">
+          前端设计模式-状态模式
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/24/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-zhuang-tai-mo-shi/" target="_self">
+        <div>
+          一. 什么是状态模式？状态模式 （State Pattern）允许一个对象在其内部状态改变时改变它的行为，对象看起来似乎修改了它的类，类的行为随着它的状态改变而改变。状态模式主要解决的是当控制一个对象状态的条件表达式过于复杂时的情况。把状态的判断逻辑转移到表示不同状态的一系列类中，可以把复杂的判断逻辑简化。 当程序需要根据不同的外部情况来做出不同操作时，最直接的方法就是使用 switch-case
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-03-24 21:44" pubdate>
+              2023-03-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
   
   
     
-     |
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
     
-      <a class="icp" href="https://beian.miit.gov.cn/" target="_blank">蜀ICP备2020031778号</a>
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">#设计模式</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/03/21/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-gong-han-mo-shi/" target="_self">
+          前端设计模式-工厂模式
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/21/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-gong-han-mo-shi/" target="_self">
+        <div>
+          1. 什么是工厂模式？工厂模式就是根据不用的输入返回不同的实例，一般用来创建同一类对象，它的主要思想就是将对象的创建与对象的实现分离在创建对象时，不暴露具体的逻辑，而是将逻辑封装在函数中，那么这个函数就可以被视为一个工厂。工厂模式根据抽象程度的不同可以分为：简单工厂、工厂方法、抽象工厂。 一个简单的例子，我们去餐馆吃饭，只需要按照菜单上的菜名进行点餐，然后菜做出来之后，不需要知道这些菜是怎么做的，
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-03-21 19:15" pubdate>
+              2023-03-21
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">#设计模式</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/03/20/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-dan-li-mo-shi/" target="_self">
+          前端设计模式-单例模式
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/20/qian-duan/she-ji-mo-shi/qian-duan-she-ji-mo-shi-dan-li-mo-shi/" target="_self">
+        <div>
+          1. 什么是单例模式？单例模式应该是设计模式中最简单、最容易上手、应用场景广泛的模式。而且，在日常生活和编程中经常遇到，下面让我们来看看单例模式是什么。 单例模式 （Singleton Pattern）又称为单体模式，保证一个类只有一个实例，并提供一个访问它的全局访问点。也就是说，第二次使用同一个类创建新对象的时候，应该得到与第一次创建的对象完全相同的对象。 2. 单例模式的实现常见的单例（而非单
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-03-20 12:12" pubdate>
+              2023-03-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">#设计模式</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/03/18/gong-ju/linux-chang-yong-ming-ling/" target="_self">
+          linux-常用命令
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/18/gong-ju/linux-chang-yong-ming-ling/" target="_self">
+        <div>
+          Linux 命令是在命令行上运行的程序。命令行是接受文本行并将其处理成计算机指令的界面。任何图形用户界面 (GUI) 都是命令行程序的抽象。通过 GUI 进行多步骤处理的任务可以通过在 CLI 中键入命令在几秒钟内完成。因此，学习基本的命令行有助于提升工作效率。 一、文件管理1. catcat 命令用于连接文件并打印到标准输出设备上。 1cat index.html 使用 cat &gt; fil
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-03-18 09:15" pubdate>
+              2023-03-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" class="category-chain-item">计算机</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/linux/">#linux</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/03/17/qian-duan/css/css-bian-liang/" target="_self">
+          CSS 居中布局
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/17/qian-duan/css/css-bian-liang/" target="_self">
+        <div>
+          变量CSS变量又名CSS自定义属性，指可在整个文档中重复使用的值。它由自定义属性–xxx和函数var(–xxx)组成，var()用于引用自定义属性。 示例： 12345678910111213141516171819/* 不使用变量 */.title &#123;    background-color: red;&#125;.desc &#123;    background-color: re
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-03-17 12:24" pubdate>
+              2023-03-17
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/css/">#css</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/03/17/qian-duan/css/css-ju-zhong-bu-ju/" target="_self">
+          CSS 居中布局
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/17/qian-duan/css/css-ju-zhong-bu-ju/" target="_self">
+        <div>
+          一、水平居中1. 内联元素123&lt;div class=&quot;container&quot;&gt;  &lt;span class=&quot;content&quot;&gt;水平居中&lt;/span&gt;&lt;/div&gt; （1）text-aligntext-align 一般运用在块级元素中，使其中的文本对齐。实际上，运用在块级元素中的text-align会使其包含的内联
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-03-17 09:11" pubdate>
+              2023-03-17
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/css/">#css</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/03/15/qian-duan/gong-cheng-hua/webpack/xing-neng-you-hua/" target="_self">
+          webpack 性能优化
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/15/qian-duan/gong-cheng-hua/webpack/xing-neng-you-hua/" target="_self">
+        <div>
+          webpack性能优化目的主要是两个方面：  提升开发效率 编译后浏览器运行效率  提升开发效率一、提⾼webpack的构建速度1. 开启多进程并行编译loader，利⽤缓存来使得 rebuild 更快 happypack （作者已不在更新）Happypack 只是作用在 loader 上，使用多个进程同时对文件进行编译。   安装1npm install happypack --save-dev
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-03-15 22:04" pubdate>
+              2023-03-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/webpack/">#webpack</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/03/15/qian-duan/gong-cheng-hua/webpack/ji-yu-webpack5.x-cong-ling-da-jian-react-xiang-mu/" target="_self">
+          基于 webpack5.x 从零搭建react项目
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/15/qian-duan/gong-cheng-hua/webpack/ji-yu-webpack5.x-cong-ling-da-jian-react-xiang-mu/" target="_self">
+        <div>
+          概述本文基于webpack5.x,pnpm包管理器 从零搭建一个 js 项目的基础开发模板 一. 文件结构1234567891011├─config│      ├─ webpack.base.js // webpack 基本配置│      ├─ webpack.dev.js // webpack 开发环境配置│      └─ webpack.prod.js // webpack 打包配置├─
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-03-15 08:50" pubdate>
+              2023-03-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/webpack/">#webpack</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2020031778号
+    </a>
+  </span>
+  
+</div>
+
   
   
 </div>
-</footer>
 
+  </footer>
 
-      </div>
-      
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/jquery.fancybox.min.js"></script>
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-
-<script id="hexo-configurations">
-    window.theme_config = {"image":{"lazyload_enable":false}};
-    window.is_post = false;
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
   </script>
 
-<script src="/js/main.js"></script>
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 
 
 
-    </div>
-  </body>
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
 </html>
-
-

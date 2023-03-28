@@ -1,107 +1,285 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yibu">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="概述本文基于webpack5.x,pnpm包管理器 从零搭建一个 js 项目的基础开发模板 一. 文件结构1234567891011├─config│      ├─ webpack.base.js &#x2F;&#x2F; webpack 基本配置│      ├─ webpack.dev.js &#x2F;&#x2F; webpack 开发环境配置│      └─ webpack.prod.js &#x2F;&#x2F; webpack 打包配置├─">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 webpack5.x 从零搭建react项目">
+<meta property="og:url" content="http://www.guohailin.com/2023/03/15/qian-duan/gong-cheng-hua/webpack/ji-yu-webpack5.x-cong-ling-da-jian-react-xiang-mu/index.html">
+<meta property="og:site_name" content="YiBu&#39;s Blog">
+<meta property="og:description" content="概述本文基于webpack5.x,pnpm包管理器 从零搭建一个 js 项目的基础开发模板 一. 文件结构1234567891011├─config│      ├─ webpack.base.js &#x2F;&#x2F; webpack 基本配置│      ├─ webpack.dev.js &#x2F;&#x2F; webpack 开发环境配置│      └─ webpack.prod.js &#x2F;&#x2F; webpack 打包配置├─">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-15T08:50:50.000Z">
+<meta property="article:modified_time" content="2023-03-28T03:33:32.341Z">
+<meta property="article:author" content="yibu">
+<meta property="article:tag" content="webpack">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>基于 webpack5.x 从零搭建react项目 - YiBu&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.guohailin.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
     
 
-<script>!function(){var e=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,t=localStorage.getItem("use-color-scheme")||"auto";("dark"===t||e&&"light"!==t)&&document.documentElement.classList.toggle("dark",!0)}()</script>
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>郭海林的博客</strong>
+    </a>
 
-<meta charset="utf-8" >
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-<title>基于 webpack5.x 从零搭建react项目</title>
-<meta name="keywords" content="基于 webpack5.x 从零搭建react项目, 郭海林的博客">
-<meta name="description" content="概述本文基于webpack5.x,pnpm包管理器 从零搭建一个 js 项目的基础开发模板
-一. 文件结构1234567891011├─config│      ├─ webpack.base.js // webpack 基本配置│    ">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="shortcut icon" href="/favicon.ico">
-<link rel="stylesheet" href="/style/main.css">
-
-
-<link rel="stylesheet" href="/style/jquery.fancybox.min.css">
-
-
-
-
-
-
-
-  <meta name="generator" content="Hexo 6.3.0"></head>
-  <body>
-    <div id="app" class="main">
-
-<div class="site-header-container">
-  <div class="site-header">
-    <div class="left">
-      <a href="http://www.guohailin.com">
-        <img class="avatar" src="/images/avatar.png" alt="logo" width="32px" height="32px">
-      </a>
-      <a href="http://www.guohailin.com">
-        <h1 class="site-title">郭海林的博客</h1>
-      </a>
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
     </div>
-    <div class="right">
-        <i class="icon menu-switch icon-menu-outline" ></i>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="基于 webpack5.x 从零搭建react项目"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-15 08:50" pubdate>
+          2023年3月15日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          47 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
     </div>
   </div>
 </div>
 
-<div class="menu-container" style="height: 0;opacity: 0;">
-<nav class="menu-list">
-  
-    
-      <a href="/" class="menu purple-link">
-        首页
-      </a>
-    
-  
-    
-      <a href="/tags" class="menu purple-link">
-        标签
-      </a>
-    
-  
-    
-      <a href="/archives" class="menu purple-link">
-        归档
-      </a>
-    
-  
-    
-      <a href="/about" class="menu purple-link">
-        关于
-      </a>
-    
-  
-</nav>
 </div>
 
+  </header>
 
-
-  <div class="content-container">
-    <div class="post-detail">
+  <main>
+    
       
-      <h2 class="post-title">基于 webpack5.x 从零搭建react项目</h2>
-      <div class="post-info post-detail-info">
-        <span><i class="icon icon-calendar-outline"></i> 2023-03-15</span>
-        
-          <span>
-          <i class="icon icon-pricetags-outline"></i>
-            
-              <a href="/tags/webpack/">
-              webpack
-                
-              </a>
-            
-          </span>
-        
-      </div>
-      <div class="post-content-wrapper">
-        <div class="post-content">
-          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>本文基于webpack5.x,pnpm包管理器 从零搭建一个 js 项目的基础开发模板</p>
-<h2 id="一-文件结构"><a href="#一-文件结构" class="headerlink" title="一. 文件结构"></a>一. 文件结构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">├─config</span><br><span class="line">│      ├─ webpack.base.js // webpack 基本配置</span><br><span class="line">│      ├─ webpack.dev.js // webpack 开发环境配置</span><br><span class="line">│      └─ webpack.prod.js // webpack 打包配置</span><br><span class="line">├─public</span><br><span class="line">│      └─index.html // 模板文件</span><br><span class="line">├─src</span><br><span class="line">│   └─index.js // 入口文件</span><br><span class="line">├─.gitignore // git忽略文件配置</span><br><span class="line">├─ package.json</span><br><span class="line">└─ pnpm-lock.yaml</span><br></pre></td></tr></table></figure>
 
-<h2 id="二-初始化wepack"><a href="#二-初始化wepack" class="headerlink" title="二. 初始化wepack"></a>二. 初始化wepack</h2><h3 id="1-安装webpack"><a href="#1-安装webpack" class="headerlink" title="1. 安装webpack"></a>1. 安装webpack</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm i -D webpack@5.76.2 webpack-cli@5.0.1 webpack-dev-server@4.13.1 webpack-merge@5.8.0</span><br></pre></td></tr></table></figure>
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">基于 webpack5.x 从零搭建react项目</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>本文基于webpack5.x,pnpm包管理器 从零搭建一个 js 项目的基础开发模板</p>
+<h2 id="一-文件结构"><a href="#一-文件结构" class="headerlink" title="一. 文件结构"></a>一. 文件结构</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs stylus">├─config<br>│      ├─ webpack<span class="hljs-selector-class">.base</span><span class="hljs-selector-class">.js</span> <span class="hljs-comment">// webpack 基本配置</span><br>│      ├─ webpack<span class="hljs-selector-class">.dev</span><span class="hljs-selector-class">.js</span> <span class="hljs-comment">// webpack 开发环境配置</span><br>│      └─ webpack<span class="hljs-selector-class">.prod</span><span class="hljs-selector-class">.js</span> <span class="hljs-comment">// webpack 打包配置</span><br>├─public<br>│      └─index<span class="hljs-selector-class">.html</span> <span class="hljs-comment">// 模板文件</span><br>├─<span class="hljs-attribute">src</span><br>│   └─index<span class="hljs-selector-class">.js</span> <span class="hljs-comment">// 入口文件</span><br>├─<span class="hljs-selector-class">.gitignore</span> <span class="hljs-comment">// git忽略文件配置</span><br>├─ package<span class="hljs-selector-class">.json</span><br>└─ pnpm-lock.yaml<br></code></pre></td></tr></table></figure>
+
+<h2 id="二-初始化wepack"><a href="#二-初始化wepack" class="headerlink" title="二. 初始化wepack"></a>二. 初始化wepack</h2><h3 id="1-安装webpack"><a href="#1-安装webpack" class="headerlink" title="1. 安装webpack"></a>1. 安装webpack</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pnpm i -D webpack@5.76.2 webpack-cli@5.0.1 webpack-dev-server@4.13.1 webpack-merge@5.8.0<br></code></pre></td></tr></table></figure>
 <h3 id="2-说明"><a href="#2-说明" class="headerlink" title="2. 说明"></a>2. 说明</h3><table>
 <thead>
 <tr>
@@ -126,98 +304,426 @@
 <td>用于合并配置</td>
 </tr>
 </tbody></table>
-<h3 id="3-配置"><a href="#3-配置" class="headerlink" title="3. 配置"></a>3. 配置</h3><h4 id="（1）webpack-base-js-公共基本配置"><a href="#（1）webpack-base-js-公共基本配置" class="headerlink" title="（1）webpack.base.js 公共基本配置"></a>（1）webpack.base.js 公共基本配置</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">HtmlWebpackPlugin</span> = <span class="built_in">require</span>(<span class="string">&quot;html-webpack-plugin&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">CopyPlugin</span> = <span class="built_in">require</span>(<span class="string">&quot;copy-webpack-plugin&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> resolve = <span class="keyword">function</span> (<span class="params">dir</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> path.<span class="title function_">resolve</span>(__dirname, dir);</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    <span class="attr">entry</span>: <span class="title function_">resolve</span>(<span class="string">&quot;../src/index.js&quot;</span>),</span><br><span class="line">    <span class="attr">output</span>: &#123;</span><br><span class="line">        <span class="attr">path</span>: path.<span class="title function_">resolve</span>(__dirname, <span class="string">&quot;../dist&quot;</span>),</span><br><span class="line">        <span class="attr">filename</span>: <span class="string">&quot;js/[name].js&quot;</span>,</span><br><span class="line">        <span class="attr">clean</span>: <span class="literal">true</span>, <span class="comment">// webpack 5.x 在生成文件之前清空 output 目录</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">resolve</span>: &#123;</span><br><span class="line">        <span class="attr">alias</span>: &#123;</span><br><span class="line">            <span class="string">&quot;@&quot;</span>: path.<span class="title function_">resolve</span>(__dirname, <span class="string">&quot;../src&quot;</span>)</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">extensions</span>: [<span class="string">&quot;.ts&quot;</span>, <span class="string">&quot;.tsx&quot;</span>, <span class="string">&quot;.js&quot;</span>, <span class="string">&quot;.jsx&quot;</span>, <span class="string">&quot;.vue&quot;</span>, <span class="string">&quot;.json&quot;</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">plugins</span>: [</span><br><span class="line">        <span class="comment">// HTML模板</span></span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">HtmlWebpackPlugin</span>(&#123;</span><br><span class="line">            <span class="attr">template</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&quot;../public/index.html&quot;</span>)</span><br><span class="line">        &#125;),</span><br><span class="line">        <span class="comment">// 配置copy public下的文件</span></span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">CopyPlugin</span>(</span><br><span class="line">            &#123;</span><br><span class="line">              <span class="attr">patterns</span>: [</span><br><span class="line">                &#123;</span><br><span class="line">                  <span class="attr">from</span>: path.<span class="title function_">resolve</span>(__dirname, <span class="string">&quot;../public&quot;</span>),</span><br><span class="line">                  <span class="attr">to</span>: path.<span class="title function_">resolve</span>(__dirname, <span class="string">&quot;../dist&quot;</span>),</span><br><span class="line">                  <span class="attr">toType</span>: <span class="string">&#x27;dir&#x27;</span>,</span><br><span class="line">                  <span class="attr">noErrorOnMissing</span>: <span class="literal">true</span>,</span><br><span class="line">                  <span class="attr">globOptions</span>: &#123;</span><br><span class="line">                    <span class="comment">// 过滤 index.html</span></span><br><span class="line">                    <span class="attr">ignore</span>: [</span><br><span class="line">                      <span class="string">&#x27;**/.DS_Store&#x27;</span>,</span><br><span class="line">                      path.<span class="title function_">join</span>(__dirname, <span class="string">&quot;../public/index.html&quot;</span>).<span class="title function_">replace</span>(<span class="regexp">/\\/g</span>, <span class="string">&#x27;/&#x27;</span>)</span><br><span class="line">                    ]</span><br><span class="line">                  &#125;,</span><br><span class="line">                  <span class="attr">info</span>: &#123;</span><br><span class="line">                    <span class="attr">minimized</span>: <span class="literal">true</span></span><br><span class="line">                  &#125;</span><br><span class="line">                &#125;</span><br><span class="line">              ]</span><br><span class="line">            &#125;</span><br><span class="line">          )</span><br><span class="line">    ],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="（2）webpack-dev-js-开发环境配置"><a href="#（2）webpack-dev-js-开发环境配置" class="headerlink" title="（2）webpack.dev.js 开发环境配置"></a>（2）webpack.dev.js 开发环境配置</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; merge &#125; =  <span class="built_in">require</span>(<span class="string">&quot;webpack-merge&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> base =  <span class="built_in">require</span>(<span class="string">&quot;./webpack.base.js&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="title function_">merge</span>(base,&#123;</span><br><span class="line">    <span class="attr">mode</span>: <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">    <span class="attr">devServer</span>: &#123;</span><br><span class="line">        <span class="attr">port</span>: <span class="number">8080</span>,</span><br><span class="line">        <span class="attr">static</span>: &#123;</span><br><span class="line">            <span class="attr">directory</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&quot;../public&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h4 id="3-webpack-prod-js-生产环境配置"><a href="#3-webpack-prod-js-生产环境配置" class="headerlink" title="(3) webpack.prod.js 生产环境配置"></a>(3) webpack.prod.js 生产环境配置</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; merge &#125; =  <span class="built_in">require</span>(<span class="string">&quot;webpack-merge&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> base =  <span class="built_in">require</span>(<span class="string">&quot;./webpack.base.js&quot;</span>);</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="title function_">merge</span>(base,&#123;</span><br><span class="line">    <span class="attr">mode</span>: <span class="string">&#x27;production&#x27;</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h4 id="4-修改package-json-文件中启动命令"><a href="#4-修改package-json-文件中启动命令" class="headerlink" title="(4) 修改package.json 文件中启动命令"></a>(4) 修改<code>package.json</code> 文件中启动命令</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;dev&quot;</span><span class="punctuation">:</span> <span class="string">&quot;webpack serve --config ./config/webpack.dev.js&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;build&quot;</span><span class="punctuation">:</span> <span class="string">&quot;webpack build --config ./config/webpack.prod.js&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-配置"><a href="#3-配置" class="headerlink" title="3. 配置"></a>3. 配置</h3><h4 id="（1）webpack-base-js-公共基本配置"><a href="#（1）webpack-base-js-公共基本配置" class="headerlink" title="（1）webpack.base.js 公共基本配置"></a>（1）webpack.base.js 公共基本配置</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>);<br><span class="hljs-keyword">const</span> <span class="hljs-title class_">HtmlWebpackPlugin</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;html-webpack-plugin&quot;</span>);<br><span class="hljs-keyword">const</span> <span class="hljs-title class_">CopyPlugin</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;copy-webpack-plugin&quot;</span>);<br><span class="hljs-keyword">const</span> resolve = <span class="hljs-keyword">function</span> (<span class="hljs-params">dir</span>) &#123;<br>    <span class="hljs-keyword">return</span> path.<span class="hljs-title function_">resolve</span>(__dirname, dir);<br>&#125;<br><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>    <span class="hljs-attr">entry</span>: <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&quot;../src/index.js&quot;</span>),<br>    <span class="hljs-attr">output</span>: &#123;<br>        <span class="hljs-attr">path</span>: path.<span class="hljs-title function_">resolve</span>(__dirname, <span class="hljs-string">&quot;../dist&quot;</span>),<br>        <span class="hljs-attr">filename</span>: <span class="hljs-string">&quot;js/[name].js&quot;</span>,<br>        <span class="hljs-attr">clean</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// webpack 5.x 在生成文件之前清空 output 目录</span><br>    &#125;,<br>    <span class="hljs-attr">resolve</span>: &#123;<br>        <span class="hljs-attr">alias</span>: &#123;<br>            <span class="hljs-string">&quot;@&quot;</span>: path.<span class="hljs-title function_">resolve</span>(__dirname, <span class="hljs-string">&quot;../src&quot;</span>)<br>        &#125;,<br>        <span class="hljs-attr">extensions</span>: [<span class="hljs-string">&quot;.ts&quot;</span>, <span class="hljs-string">&quot;.tsx&quot;</span>, <span class="hljs-string">&quot;.js&quot;</span>, <span class="hljs-string">&quot;.jsx&quot;</span>, <span class="hljs-string">&quot;.vue&quot;</span>, <span class="hljs-string">&quot;.json&quot;</span>]<br>    &#125;,<br>    <span class="hljs-attr">plugins</span>: [<br>        <span class="hljs-comment">// HTML模板</span><br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">HtmlWebpackPlugin</span>(&#123;<br>            <span class="hljs-attr">template</span>: path.<span class="hljs-title function_">join</span>(__dirname, <span class="hljs-string">&quot;../public/index.html&quot;</span>)<br>        &#125;),<br>        <span class="hljs-comment">// 配置copy public下的文件</span><br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">CopyPlugin</span>(<br>            &#123;<br>              <span class="hljs-attr">patterns</span>: [<br>                &#123;<br>                  <span class="hljs-attr">from</span>: path.<span class="hljs-title function_">resolve</span>(__dirname, <span class="hljs-string">&quot;../public&quot;</span>),<br>                  <span class="hljs-attr">to</span>: path.<span class="hljs-title function_">resolve</span>(__dirname, <span class="hljs-string">&quot;../dist&quot;</span>),<br>                  <span class="hljs-attr">toType</span>: <span class="hljs-string">&#x27;dir&#x27;</span>,<br>                  <span class="hljs-attr">noErrorOnMissing</span>: <span class="hljs-literal">true</span>,<br>                  <span class="hljs-attr">globOptions</span>: &#123;<br>                    <span class="hljs-comment">// 过滤 index.html</span><br>                    <span class="hljs-attr">ignore</span>: [<br>                      <span class="hljs-string">&#x27;**/.DS_Store&#x27;</span>,<br>                      path.<span class="hljs-title function_">join</span>(__dirname, <span class="hljs-string">&quot;../public/index.html&quot;</span>).<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\\/g</span>, <span class="hljs-string">&#x27;/&#x27;</span>)<br>                    ]<br>                  &#125;,<br>                  <span class="hljs-attr">info</span>: &#123;<br>                    <span class="hljs-attr">minimized</span>: <span class="hljs-literal">true</span><br>                  &#125;<br>                &#125;<br>              ]<br>            &#125;<br>          )<br>    ],<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="（2）webpack-dev-js-开发环境配置"><a href="#（2）webpack-dev-js-开发环境配置" class="headerlink" title="（2）webpack.dev.js 开发环境配置"></a>（2）webpack.dev.js 开发环境配置</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> &#123; merge &#125; =  <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;webpack-merge&quot;</span>);<br><span class="hljs-keyword">const</span> base =  <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;./webpack.base.js&quot;</span>);<br><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>);<br><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-title function_">merge</span>(base,&#123;<br>    <span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;development&#x27;</span>,<br>    <span class="hljs-attr">devServer</span>: &#123;<br>        <span class="hljs-attr">port</span>: <span class="hljs-number">8080</span>,<br>        <span class="hljs-attr">static</span>: &#123;<br>            <span class="hljs-attr">directory</span>: path.<span class="hljs-title function_">join</span>(__dirname, <span class="hljs-string">&quot;../public&quot;</span>)<br>        &#125;<br>    &#125;<br>&#125;)<br></code></pre></td></tr></table></figure>
+<h4 id="3-webpack-prod-js-生产环境配置"><a href="#3-webpack-prod-js-生产环境配置" class="headerlink" title="(3) webpack.prod.js 生产环境配置"></a>(3) webpack.prod.js 生产环境配置</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> &#123; merge &#125; =  <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;webpack-merge&quot;</span>);<br><span class="hljs-keyword">const</span> base =  <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;./webpack.base.js&quot;</span>);<br><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-title function_">merge</span>(base,&#123;<br>    <span class="hljs-attr">mode</span>: <span class="hljs-string">&#x27;production&#x27;</span><br>&#125;)<br></code></pre></td></tr></table></figure>
+<h4 id="4-修改package-json-文件中启动命令"><a href="#4-修改package-json-文件中启动命令" class="headerlink" title="(4) 修改package.json 文件中启动命令"></a>(4) 修改<code>package.json</code> 文件中启动命令</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;scripts&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;dev&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;webpack serve --config ./config/webpack.dev.js&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;build&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;webpack build --config ./config/webpack.prod.js&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="三-添加es6语法兼容支持"><a href="#三-添加es6语法兼容支持" class="headerlink" title="三. 添加es6语法兼容支持"></a>三. 添加es6语法兼容支持</h2><h3 id="1-安装babel"><a href="#1-安装babel" class="headerlink" title="1. 安装babel"></a>1. 安装babel</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm i -D babel-loader @babel/core @babel/plugin-transform-runtime @babel/preset-env</span><br></pre></td></tr></table></figure>
+<h2 id="三-添加es6语法兼容支持"><a href="#三-添加es6语法兼容支持" class="headerlink" title="三. 添加es6语法兼容支持"></a>三. 添加es6语法兼容支持</h2><h3 id="1-安装babel"><a href="#1-安装babel" class="headerlink" title="1. 安装babel"></a>1. 安装babel</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pnpm i -D babel-loader @babel/core @babel/plugin-transform-runtime @babel/preset-env<br></code></pre></td></tr></table></figure>
 <h3 id="2-修改配置"><a href="#2-修改配置" class="headerlink" title="2. 修改配置"></a>2. 修改配置</h3><p>1）在根目录创建 <code>.babelrc</code>或者<code>babel.config.js</code> 文件, 写入配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;presets&quot;</span>: [</span><br><span class="line">      <span class="string">&quot;@babel/preset-env&quot;</span> <span class="comment">// 根据配置的目标浏览器或者运行环境，选择对应的语法包，从而将代码进行转换</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">&quot;plugins&quot;</span>: [</span><br><span class="line">      [</span><br><span class="line">        <span class="string">&quot;@babel/plugin-transform-runtime&quot;</span>, <span class="comment">// 作用是减少冗余的代码</span></span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">&quot;regenerator&quot;</span>: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs js">&#123;<br>    <span class="hljs-string">&quot;presets&quot;</span>: [<br>      <span class="hljs-string">&quot;@babel/preset-env&quot;</span> <span class="hljs-comment">// 根据配置的目标浏览器或者运行环境，选择对应的语法包，从而将代码进行转换</span><br>    ],<br>    <span class="hljs-string">&quot;plugins&quot;</span>: [<br>      [<br>        <span class="hljs-string">&quot;@babel/plugin-transform-runtime&quot;</span>, <span class="hljs-comment">// 作用是减少冗余的代码</span><br>        &#123;<br>          <span class="hljs-string">&quot;regenerator&quot;</span>: <span class="hljs-literal">true</span><br>        &#125;<br>      ]<br>    ]<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>修改webpack.base.js 配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">    <span class="attr">rules</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        <span class="attr">use</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">loader</span>:<span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">            <span class="attr">options</span>: &#123;</span><br><span class="line">              <span class="attr">cacheCompression</span>: <span class="literal">false</span>,</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="四-添加typescript支持"><a href="#四-添加typescript支持" class="headerlink" title="四. 添加typescript支持"></a>四. 添加typescript支持</h2><h3 id="1-安装typescript依赖"><a href="#1-安装typescript依赖" class="headerlink" title="1. 安装typescript依赖"></a>1. 安装typescript依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm i -D typescript @babel/preset-typescript</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>  <span class="hljs-comment">// ...</span><br>  <span class="hljs-attr">module</span>: &#123;<br>    <span class="hljs-attr">rules</span>: [<br>      &#123;<br>        <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.js$/</span>,<br>        <span class="hljs-attr">use</span>: [<br>          &#123;<br>            <span class="hljs-attr">loader</span>:<span class="hljs-string">&#x27;babel-loader&#x27;</span>,<br>            <span class="hljs-attr">options</span>: &#123;<br>              <span class="hljs-attr">cacheCompression</span>: <span class="hljs-literal">false</span>,<br>            &#125;<br>          &#125;<br>        ]<br>      &#125;<br>    ]<br>  &#125;,<br>  <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="四-添加typescript支持"><a href="#四-添加typescript支持" class="headerlink" title="四. 添加typescript支持"></a>四. 添加typescript支持</h2><h3 id="1-安装typescript依赖"><a href="#1-安装typescript依赖" class="headerlink" title="1. 安装typescript依赖"></a>1. 安装typescript依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pnpm i -D typescript @babel/preset-typescript<br></code></pre></td></tr></table></figure>
 <h3 id="2-修改配置-1"><a href="#2-修改配置-1" class="headerlink" title="2. 修改配置"></a>2. 修改配置</h3><p>修改webpack.base.js 配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">    <span class="attr">rules</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.(jsx?|tsx?)$/</span>,</span><br><span class="line">        <span class="attr">use</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">loader</span>:<span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">            <span class="attr">options</span>: &#123;</span><br><span class="line">              <span class="attr">cacheCompression</span>: <span class="literal">false</span>,</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>  <span class="hljs-comment">// ...</span><br>  <span class="hljs-attr">module</span>: &#123;<br>    <span class="hljs-attr">rules</span>: [<br>      &#123;<br>        <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.(jsx?|tsx?)$/</span>,<br>        <span class="hljs-attr">use</span>: [<br>          &#123;<br>            <span class="hljs-attr">loader</span>:<span class="hljs-string">&#x27;babel-loader&#x27;</span>,<br>            <span class="hljs-attr">options</span>: &#123;<br>              <span class="hljs-attr">cacheCompression</span>: <span class="hljs-literal">false</span>,<br>            &#125;<br>          &#125;<br>        ]<br>      &#125;<br>    ]<br>  &#125;,<br>  <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
 <p>修改babel配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;presets&quot;</span>: [</span><br><span class="line">      <span class="string">&quot;@babel/preset-env&quot;</span>,</span><br><span class="line">      <span class="string">&quot;@babel/preset-typescript&quot;</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">&quot;plugins&quot;</span>: [</span><br><span class="line">      [</span><br><span class="line">        <span class="string">&quot;@babel/plugin-transform-runtime&quot;</span>,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">&quot;regenerator&quot;</span>: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs js">&#123;<br>    <span class="hljs-string">&quot;presets&quot;</span>: [<br>      <span class="hljs-string">&quot;@babel/preset-env&quot;</span>,<br>      <span class="hljs-string">&quot;@babel/preset-typescript&quot;</span><br>    ],<br>    <span class="hljs-string">&quot;plugins&quot;</span>: [<br>      [<br>        <span class="hljs-string">&quot;@babel/plugin-transform-runtime&quot;</span>,<br>        &#123;<br>          <span class="hljs-string">&quot;regenerator&quot;</span>: <span class="hljs-literal">true</span><br>        &#125;<br>      ]<br>    ]<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>创建 <code>tsconfig.json</code></p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;baseUrl&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;paths&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;@/*&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">&quot;./src&quot;</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;target&quot;</span><span class="punctuation">:</span> <span class="string">&quot;es2016&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;jsx&quot;</span><span class="punctuation">:</span> <span class="string">&quot;react-jsx&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;module&quot;</span><span class="punctuation">:</span> <span class="string">&quot;esnext&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;moduleResolution&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;resolveJsonModule&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;allowJs&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;noEmit&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;isolatedModules&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;allowSyntheticDefaultImports&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;esModuleInterop&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;forceConsistentCasingInFileNames&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;strict&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;noFallthroughCasesInSwitch&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;skipLibCheck&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;lib&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="string">&quot;esnext&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="string">&quot;dom&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="string">&quot;dom.iterable&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="string">&quot;scripthost&quot;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;include&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;src/**/*.ts&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;src/**/*.tsx&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;src/**/*.vue&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;tests/**/*.ts&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;tests/**/*.tsx&quot;</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;exclude&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;node_modules&quot;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<h2 id="五-react支持"><a href="#五-react支持" class="headerlink" title="五. react支持"></a>五. react支持</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm i -D react react-dom</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;compilerOptions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;baseUrl&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;.&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;paths&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;@/*&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>        <span class="hljs-string">&quot;./src&quot;</span><br>      <span class="hljs-punctuation">]</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;target&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;es2016&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;jsx&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;react-jsx&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;module&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;esnext&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;moduleResolution&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;node&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;resolveJsonModule&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;allowJs&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;noEmit&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;isolatedModules&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;allowSyntheticDefaultImports&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;esModuleInterop&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;forceConsistentCasingInFileNames&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;strict&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;noFallthroughCasesInSwitch&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;skipLibCheck&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;lib&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>      <span class="hljs-string">&quot;esnext&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-string">&quot;dom&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-string">&quot;dom.iterable&quot;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-string">&quot;scripthost&quot;</span><br>    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;include&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>    <span class="hljs-string">&quot;src/**/*.ts&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;src/**/*.tsx&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;src/**/*.vue&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;tests/**/*.ts&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-string">&quot;tests/**/*.tsx&quot;</span><br>  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;exclude&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>    <span class="hljs-string">&quot;node_modules&quot;</span><br>  <span class="hljs-punctuation">]</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<h2 id="五-react支持"><a href="#五-react支持" class="headerlink" title="五. react支持"></a>五. react支持</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pnpm i -D react react-dom<br></code></pre></td></tr></table></figure>
 <p>修改Babel配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;presets&quot;</span>: [</span><br><span class="line">      <span class="string">&quot;@babel/preset-env&quot;</span>,</span><br><span class="line">      <span class="string">&quot;@babel/preset-react&quot;</span>,</span><br><span class="line">      <span class="string">&quot;@babel/preset-typescript&quot;</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">&quot;plugins&quot;</span>: [</span><br><span class="line">      [</span><br><span class="line">        <span class="string">&quot;@babel/plugin-transform-runtime&quot;</span>,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">&quot;regenerator&quot;</span>: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs js">&#123;<br>    <span class="hljs-string">&quot;presets&quot;</span>: [<br>      <span class="hljs-string">&quot;@babel/preset-env&quot;</span>,<br>      <span class="hljs-string">&quot;@babel/preset-react&quot;</span>,<br>      <span class="hljs-string">&quot;@babel/preset-typescript&quot;</span><br>    ],<br>    <span class="hljs-string">&quot;plugins&quot;</span>: [<br>      [<br>        <span class="hljs-string">&quot;@babel/plugin-transform-runtime&quot;</span>,<br>        &#123;<br>          <span class="hljs-string">&quot;regenerator&quot;</span>: <span class="hljs-literal">true</span><br>        &#125;<br>      ]<br>    ]<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>在src&#x2F;index.tsx，src&#x2F;App.tsx 文件<br>src&#x2F;App.tsx 写入</p>
-<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">App</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>Webacpk5<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">App</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-keyword">import</span> <span class="hljs-title class_">React</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react&quot;</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-title function_">App</span> = (<span class="hljs-params"></span>) =&gt; &#123;<br>  <span class="hljs-keyword">return</span> (<br>    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Webacpk5<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>  )<br>&#125;<br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title class_">App</span>;<br></code></pre></td></tr></table></figure>
 <p>src&#x2F;index.tsx 写入</p>
-<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">ReactDOMClient</span> <span class="keyword">from</span> <span class="string">&#x27;react-dom/client&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App</span> <span class="keyword">from</span> <span class="string">&#x27;./App&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> dom = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;root&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> root = <span class="title class_">ReactDOMClient</span>.<span class="title function_">createRoot</span>(dom <span class="keyword">as</span> <span class="title class_">HTMLElement</span>)</span><br><span class="line">root.<span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span></span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-keyword">import</span> <span class="hljs-title class_">React</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react&quot;</span>;<br><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-title class_">ReactDOMClient</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-dom/client&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">App</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./App&#x27;</span>;<br><span class="hljs-keyword">const</span> dom = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;root&quot;</span>)<br><br><span class="hljs-keyword">const</span> root = <span class="hljs-title class_">ReactDOMClient</span>.<span class="hljs-title function_">createRoot</span>(dom <span class="hljs-keyword">as</span> <span class="hljs-title class_">HTMLElement</span>)<br>root.<span class="hljs-title function_">render</span>(<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span></span>);<br></code></pre></td></tr></table></figure>
 <p>修改webpack配置</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="title function_">resolve</span>(<span class="string">&quot;../src/index.tsx&quot;</span>),</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>  <span class="hljs-attr">entry</span>: <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&quot;../src/index.tsx&quot;</span>),<br>  <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
 <h2 id="六-媒体文件配置"><a href="#六-媒体文件配置" class="headerlink" title="六. 媒体文件配置"></a>六. 媒体文件配置</h2><h3 id="todo"><a href="#todo" class="headerlink" title="todo"></a>todo</h3><h2 id="七-eslint-prettier-husky-jest"><a href="#七-eslint-prettier-husky-jest" class="headerlink" title="七. eslint+prettier+husky+jest"></a>七. eslint+prettier+husky+jest</h2><h3 id="todo-1"><a href="#todo-1" class="headerlink" title="todo"></a>todo</h3>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/webpack/">#webpack</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>基于 webpack5.x 从零搭建react项目</div>
+      <div>http://www.guohailin.com/2023/03/15/qian-duan/gong-cheng-hua/webpack/ji-yu-webpack5.x-cong-ling-da-jian-react-xiang-mu/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yibu</div>
         </div>
-        <div class="top-div">
-          <ol class="top-box"><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E6%A6%82%E8%BF%B0"><span class="top-box-text">概述</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%B8%80-%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="top-box-text">一. 文件结构</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%BA%8C-%E5%88%9D%E5%A7%8B%E5%8C%96wepack"><span class="top-box-text">二. 初始化wepack</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#1-%E5%AE%89%E8%A3%85webpack"><span class="top-box-text">1. 安装webpack</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#2-%E8%AF%B4%E6%98%8E"><span class="top-box-text">2. 说明</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#3-%E9%85%8D%E7%BD%AE"><span class="top-box-text">3. 配置</span></a></li></ol></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%B8%89-%E6%B7%BB%E5%8A%A0es6%E8%AF%AD%E6%B3%95%E5%85%BC%E5%AE%B9%E6%94%AF%E6%8C%81"><span class="top-box-text">三. 添加es6语法兼容支持</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#1-%E5%AE%89%E8%A3%85babel"><span class="top-box-text">1. 安装babel</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#2-%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE"><span class="top-box-text">2. 修改配置</span></a></li></ol></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E5%9B%9B-%E6%B7%BB%E5%8A%A0typescript%E6%94%AF%E6%8C%81"><span class="top-box-text">四. 添加typescript支持</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#1-%E5%AE%89%E8%A3%85typescript%E4%BE%9D%E8%B5%96"><span class="top-box-text">1. 安装typescript依赖</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#2-%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE-1"><span class="top-box-text">2. 修改配置</span></a></li></ol></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%BA%94-react%E6%94%AF%E6%8C%81"><span class="top-box-text">五. react支持</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E5%85%AD-%E5%AA%92%E4%BD%93%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="top-box-text">六. 媒体文件配置</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#todo"><span class="top-box-text">todo</span></a></li></ol></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%B8%83-eslint-prettier-husky-jest"><span class="top-box-text">七. eslint+prettier+husky+jest</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#todo-1"><span class="top-box-text">todo</span></a></li></ol></li></ol>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/15/qian-duan/gong-cheng-hua/webpack/xing-neng-you-hua/" title="webpack 性能优化">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">webpack 性能优化</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
         </div>
       </div>
     </div>
 
-    
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
   </div>
+</div>
 
 
 
 
-<footer>
-<div class="site-footer">
-  <div class="social-container">
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
     
-      
-        <a href="https://github.com/ghlyibu" target="_blank">
-          <i class="icon icon-github"></i>
-        </a>
-      
+
     
-      
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
     
-      
+
     
-      
-    
-      
-    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
   </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
   
-    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> <a href="https://github.com/f-dong/hexo-theme-minimalism" target="_blank">Theme</a>
+  
+    <div class="statistics">
   
   
+
   
     
-     |
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
     
-      <a class="icp" href="https://beian.miit.gov.cn/" target="_blank">蜀ICP备2020031778号</a>
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2020031778号
+    </a>
+  </span>
+  
+</div>
+
   
   
 </div>
-</footer>
 
+  </footer>
 
-      </div>
-      
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/jquery.fancybox.min.js"></script>
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-
-<script id="hexo-configurations">
-    window.theme_config = {"image":{"lazyload_enable":false}};
-    window.is_post = true;
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
   </script>
 
-<script src="/js/main.js"></script>
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 
 
 
-    </div>
-  </body>
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
 </html>
-
