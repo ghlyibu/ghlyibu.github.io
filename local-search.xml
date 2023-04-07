@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>git 多平台ssh配置</title>
+    <link href="/2023/04/07/gong-ju/git-duo-ping-tai-ssh-pei-zhi/"/>
+    <url>/2023/04/07/gong-ju/git-duo-ping-tai-ssh-pei-zhi/</url>
+    
+    <content type="html"><![CDATA[<h1 id="git-多平台ssh配置"><a href="#git-多平台ssh配置" class="headerlink" title="git 多平台ssh配置"></a>git 多平台ssh配置</h1><p>当需要在 Git 中使用多个 SSH Key 进行认证时，可以按照以下步骤进行配置：</p><h2 id="1-打开终端并进入-SSH-目录"><a href="#1-打开终端并进入-SSH-目录" class="headerlink" title="1. 打开终端并进入 SSH 目录"></a>1. 打开终端并进入 SSH 目录</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> ~/.ssh<br></code></pre></td></tr></table></figure><h2 id="2-生成不同的-SSH-Key"><a href="#2-生成不同的-SSH-Key" class="headerlink" title="2. 生成不同的 SSH Key"></a>2. 生成不同的 SSH Key</h2><figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs arcade">ssh-keygen -t rsa -C <span class="hljs-string">&#x27;xxxxx@youremail.com&#x27;</span> -f ~<span class="hljs-regexp">/.ssh/gi</span>tee_id_rsa<br>ssh-keygen -t rsa -C <span class="hljs-string">&#x27;xxxxx@youremail.com&#x27;</span> -f ~<span class="hljs-regexp">/.ssh/gi</span>thub_id_rsa<br></code></pre></td></tr></table></figure><p>这里生成了两个不同的 SSH Key，分别用于访问不同的 Git 托管平台，例如 gitee.com 和 github.com。</p><h2 id="2-在-SSH-目录下创建-config-文件并写入以下内容"><a href="#2-在-SSH-目录下创建-config-文件并写入以下内容" class="headerlink" title="2. 在 SSH 目录下创建 config 文件并写入以下内容"></a>2. 在 SSH 目录下创建 config 文件并写入以下内容</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># gitee</span><br>Host gitee.com<br>HostName gitee.com<br>PreferredAuthentications publickey<br>IdentityFile ~<span class="hljs-regexp">/.ssh/gi</span>tee_id_rsa<br><span class="hljs-comment"># github</span><br>Host github.com<br>HostName github.com<br>PreferredAuthentications publickey<br>IdentityFile ~<span class="hljs-regexp">/.ssh/i</span>d_rsa<br></code></pre></td></tr></table></figure><p>这里创建了 config 文件并针对不同的主机地址分别设置了 Host、HostName、PreferredAuthentications 和 IdentityFile。</p><h2 id="测试是否联通"><a href="#测试是否联通" class="headerlink" title="测试是否联通"></a>测试是否联通</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh -T git@gitee.com<br>ssh -T git@github.com<br></code></pre></td></tr></table></figure><p>以上步骤涵盖了创建多个 SSH Key、配置 config 文件和测试 SSH 连接的全部流程，可以轻松地完成 Git 多地址 SSH 配置。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>GIT</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>CSS 高级选择器</title>
     <link href="/2023/03/30/qian-duan/css/css-gao-ji-xuan-ze-qi/"/>
     <url>/2023/03/30/qian-duan/css/css-gao-ji-xuan-ze-qi/</url>
