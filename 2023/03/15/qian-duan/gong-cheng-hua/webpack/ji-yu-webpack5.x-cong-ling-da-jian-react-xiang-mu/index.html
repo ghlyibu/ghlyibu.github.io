@@ -24,7 +24,7 @@
 <meta property="og:description" content="基于 webpack5.x 从零搭建react项目概述本文基于webpack5.x,pnpm包管理器 从零搭建一个 js 项目的基础开发模板 一. 文件结构1234567891011├─config│      ├─ webpack.base.js &#x2F;&#x2F; webpack 基本配置│      ├─ webpack.dev.js &#x2F;&#x2F; webpack 开发环境配置│      └─ webpack.">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-03-15T08:50:50.000Z">
-<meta property="article:modified_time" content="2023-04-07T07:45:43.341Z">
+<meta property="article:modified_time" content="2023-04-12T08:31:36.101Z">
 <meta property="article:author" content="yibu">
 <meta property="article:tag" content="webpack">
 <meta name="twitter:card" content="summary_large_image">
@@ -330,7 +330,6 @@
 <figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-keyword">import</span> <span class="hljs-title class_">React</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react&quot;</span>;<br><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-title class_">ReactDOMClient</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-dom/client&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">App</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./App&#x27;</span>;<br><span class="hljs-keyword">const</span> dom = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;root&quot;</span>)<br><br><span class="hljs-keyword">const</span> root = <span class="hljs-title class_">ReactDOMClient</span>.<span class="hljs-title function_">createRoot</span>(dom <span class="hljs-keyword">as</span> <span class="hljs-title class_">HTMLElement</span>)<br>root.<span class="hljs-title function_">render</span>(<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span></span>);<br></code></pre></td></tr></table></figure>
 <p>修改webpack配置</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>  <span class="hljs-attr">entry</span>: <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&quot;../src/index.tsx&quot;</span>),<br>  <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="六-媒体文件配置"><a href="#六-媒体文件配置" class="headerlink" title="六. 媒体文件配置"></a>六. 媒体文件配置</h2><h3 id="todo"><a href="#todo" class="headerlink" title="todo"></a>todo</h3><h2 id="七-eslint-prettier-husky-jest"><a href="#七-eslint-prettier-husky-jest" class="headerlink" title="七. eslint+prettier+husky+jest"></a>七. eslint+prettier+husky+jest</h2><h3 id="todo-1"><a href="#todo-1" class="headerlink" title="todo"></a>todo</h3>
                 
               </div>
             
@@ -427,9 +426,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/03/15/qian-duan/gong-cheng-hua/webpack/xing-neng-you-hua/" title="webpack 性能优化">
+                      <a href="/2023/03/17/qian-duan/css/css-ju-zhong-bu-ju/" title="CSS 居中布局">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">webpack 性能优化</span>
+                        <span class="hidden-mobile">CSS 居中布局</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
