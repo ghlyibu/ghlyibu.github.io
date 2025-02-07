@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Js on My New Hugo Site</title>
+    <link>http://localhost:1313/js/</link>
+    <description>Recent content in Js on My New Hugo Site</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 07 Feb 2025 13:57:41 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/js/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>1</title>
+      <link>http://localhost:1313/js/1/</link>
+      <pubDate>Fri, 07 Feb 2025 13:54:20 +0800</pubDate>
+      <guid>http://localhost:1313/js/1/</guid>
+      <description>&lt;h1 id=&#34;1-hello-world&#34;&gt;1. Hello World!&lt;/h1&gt;&#xA;&lt;h2 id=&#34;11-题目描述&#34;&gt;1.1. 题目描述&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;输出 Hello World!&#xA;&lt;code&gt;Hello World!&lt;/code&gt;&lt;/p&gt;&lt;/blockquote&gt;</description>
+    </item>
+  </channel>
+</rss>
